@@ -1,13 +1,7 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
 
-import React from 'react';
-import type {PropsWithChildren} from 'react';
+import * as React from 'react';
 import {
+  Image,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -15,104 +9,139 @@ import {
   Text,
   useColorScheme,
   View,
+  Button,
+  Pressable,
+  ImageBackground
 } from 'react-native';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { MD3DarkTheme, useTheme } from 'react-native-paper';
+import FontAwesome from "react-native-vector-icons/FontAwesome";
+import Entypo from "react-native-vector-icons/Entypo";
+import Foundation from "react-native-vector-icons/Foundation";
+import FontAwesome5 from "react-native-vector-icons/FontAwesome5"
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import Fontisto from "react-native-vector-icons/Fontisto";
+import { HomeScreen } from './screens/homeScreen';
+import { StaffContactsScreen } from './screens/staffContacts';
+import { AnnouncementScreen } from './screens/announcement';
+import { SalaryManagementScreen } from './screens/salaryManagement';
+import { AttendanceAndBonusScreen } from './screens/attendanceAndBonus';
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
 
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
 
 function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+  const Tab = createBottomTabNavigator();
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <>
+    <NavigationContainer >
+      <Tab.Navigator  
+        screenOptions={{headerShown: false,
+        tabBarActiveTintColor: 'yellow',
+        tabBarInactiveTintColor:"white",
+        tabBarInactiveBackgroundColor:"#004A94",
+        tabBarActiveBackgroundColor:"#004A94",
+        tabBarStyle: {
+          height: 85,
+        },
+        tabBarLabelStyle:{
+         fontSize:14,
+         marginBottom:10
+           
+        }
+         }} 
+        
+      >
+        <Tab.Screen  
+          name="Home"
+          component={HomeScreen}
+          options={{
+            tabBarIcon: ({size,focused,color}) => {
+              return (
+                <Entypo 
+                 name="home" 
+                 size={25} 
+                 color={focused ?"yellow":"white"}
+                />
+              );
+            },
+          }} 
+        />
+        <Tab.Screen  
+          name="회사연락망"
+          component={StaffContactsScreen}
+          options={{
+            tabBarIcon: ({size,focused,color}) => {
+              return (
+                <FontAwesome5 
+                  name="user-friends" 
+                  size={25} 
+                  color={focused ?"yellow":"white"} 
+                />
+              );
+            }
+          }} 
+        />
+        <Tab.Screen 
+          name="공지사항" 
+          component={AnnouncementScreen}
+          options={{
+            tabBarIcon: ({size,focused,color}) => {
+              return (
+                <Foundation 
+                  name="megaphone" 
+                  size={25} 
+                  color={focused ?"yellow":"white"} 
+                />
+                
+              );
+            },
+          }}  
+        />             
+        <Tab.Screen 
+          name="급여관리" 
+          component={SalaryManagementScreen}
+          options={{
+           tabBarIcon: ({size,focused,color}) => {
+              return (
+                <MaterialCommunityIcons 
+                  name="newspaper" 
+                  size={25} 
+                  color={focused ?"yellow":"white"}
+                />
+              );
+            },
+          }} 
+        />
+        <Tab.Screen 
+          name="근태/수당" 
+          component={AttendanceAndBonusScreen}
+          options={{
+            tabBarIcon: ({size,focused,color}) => {
+              return (
+                <Fontisto 
+                  name="clock" 
+                  size={25} 
+                  color={focused ?"yellow":"white"}
+                />
+              );
+            },
+          }} 
+        />              
+      </Tab.Navigator>
+    </NavigationContainer>
+  
+    </>
   );
 }
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
+
+
 });
 
 export default App;
+
