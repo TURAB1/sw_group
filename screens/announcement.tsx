@@ -1,46 +1,45 @@
-import { SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native"
+import { FlatList, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native"
 import { HeaderComponent } from "../components/headerComponent";
+import {data} from "../assets/information";
 
 export const AnnouncementScreen=(navigation:any,screenName:any)=>{
 
-  // interface Props2{
-  //   day:any
-  //   icon:any
-  //   maxTemp:any
-  //   minTemp:any 
-  //   details:any
-  // }
+  interface Props{
+    title:any
+    description:any 
+    publication_date:any
+  }
 
-  // const ForecastComingDays:React.FC<Props2>=({day,icon,maxTemp,minTemp,details})=>{
-  //   return(
-  //         <View  style={styles.weatherStyle}>
-  //           <Text>{new Date(day).toLocaleDateString("en-EN", { weekday: 'long' })}</Text> 
-  //           <Text>{new Date(day).getMonth()+1}/{new Date(day).getDate()}</Text>    
-  //           <Image 
-  //             style={styles.weatherIcon}
-  //             source={{uri:"https:"+icon}}/>
-  //           <Text>Max Temp:{maxTemp}°C</Text> 
-  //           <Text>Min Temp:{minTemp}°C</Text>  
-  //           <Text>{details}</Text>
-  //         </View>
-  //     );
-  // }
-
-  // const getComingDaysForecast=()=>{
-
-  //   if (data !==null){
-  //    return  data.forecast.forecastday.map((item:any, index:any) => {
-  //      if(index!==0){ 
-        
-  //       return (
-  //       <ForecastComingDays key={index} day={item.date} icon={item.day.condition.icon} maxTemp={item.day.maxtemp_c} minTemp={item.day.mintemp_c} details={item.day.condition.text}/>
-  //           );
-
-  //         }
+  const AnnouncementItem:React.FC<Props>=({title,description,publication_date})=>{
+    return(
+          <View  style={styles.announcementStyle}>
+            <Text style={styles.titleStyle}> {title}</Text> 
+             <View style={styles.publicationDate}>
+              <Text style={styles.dateStyle}>작성일:{publication_date}</Text>    
+              <Text style={styles.dateStyle}>시행일:{publication_date}</Text>
+            </View>
+            <View style={styles.line}></View>
+          </View>
+        );
+  }
+  
+  const displayAnnouncement=()=>{
+    // return data.announcement.map((item:any,index:any)=>{
+    //  return(
+    //   <AnnouncementItem key={index} title={item.title} description={item.description} publication_date={item.publication_date}/>
+    //   )
+    //  }
+    // )
+      return(
+        <FlatList
+         data={data.announcement}
+         renderItem={({item,index})=><AnnouncementItem key={index} title={item.title} description={item.description} publication_date={item.publication_date}/>}
+         showsVerticalScrollIndicator={false}
+        />
+      )
     
-  //     });
-  //   }
-  // }
+  }
+ 
   return(
     <SafeAreaView style={styles.announcementSection}>
       <HeaderComponent navigation={navigation} screenName="공지사항"/>
@@ -84,6 +83,12 @@ export const AnnouncementScreen=(navigation:any,screenName:any)=>{
               <Text style={styles.searchButtonText}>검색</Text>
             </View> 
           </TouchableOpacity>
+      </View>
+ 
+      <View style={{height:"80%"}}>
+        {
+          displayAnnouncement()
+        }
       </View>
     </SafeAreaView> 
   )
@@ -144,4 +149,25 @@ const styles=StyleSheet.create({
     color:"white",
     fontWeight:"bold",
   },
+  announcementStyle:{
+   marginLeft:5,
+   marginRight:5
+  },
+  publicationDate:{
+   flexDirection:"row",
+   justifyContent:"space-between"
+  },
+  line:{
+    backgroundColor:"#D1D1D1",
+    height:2,
+    marginTop:13,
+    marginBottom:13
+  },
+  titleStyle:{
+    fontWeight:"bold",
+    fontSize:16
+  },
+  dateStyle:{
+    fontWeight:"normal"
+  }
 });

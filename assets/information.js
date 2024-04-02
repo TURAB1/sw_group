@@ -1,12 +1,14 @@
+import random_photo from "./photos/random_photo.png";
+import chris_photo from "./photos/chris_photo.jpeg";
 
-{
+export const data={
     "employee": {
         "executive": [
             {
                 "id": 1,
                 "name": "CEO",
                 "phone_number": "08475755",
-                "photo": "../assets/photos/random_photo.png",
+                "photo": random_photo,
                 "role": "",
                 "department": "임원실"
             },
@@ -14,7 +16,7 @@
                 "id": 2,
                 "name": "홍길동",
                 "phone_number": "2084757552",
-                "photo": "../assets/photos/random_photo.png",
+                "photo": random_photo,
                 "role": "",
                 "department": "임원실"
             },
@@ -22,7 +24,7 @@
                 "id": 3,
                 "name": "홍길동",
                 "phone_number": "08475755",
-                "photo": "../assets/photos/random_photo.png",
+                "photo": random_photo,
                 "role": "",
                 "department": "임원실"
             },
@@ -30,7 +32,7 @@
                 "id": 4,
                 "name": "홍길동",
                 "phone_number": "2084757552",
-                "photo": "../assets/photos/random_photo.png",
+                "photo":random_photo,
                 "role": "",
                 "department": "임원실"
             }
@@ -40,7 +42,7 @@
                 "id": 5,
                 "name": "홍길동",
                 "phone_number": "2084757552",
-                "photo": "../assets/photos/random_photo.png",
+                "photo": random_photo,
                 "role": "",
                 "department": "감사"
             }
@@ -50,7 +52,7 @@
                 "id": 6,
                 "name": "홍길동",
                 "phone_number": "084757553",
-                "photo": "./photos/random_photo.png",
+                "photo": random_photo,
                 "role": "팀원",
                 "department": "경영지원부"
             },
@@ -58,7 +60,7 @@
                 "id": 7,
                 "name": "박",
                 "phone_number": "08475755",
-                "photo": "./photos/random_photo.png",
+                "photo": random_photo,
                 "role": "팀원",
                 "department": "경영지원부"
             },
@@ -66,7 +68,7 @@
                 "id": 8,
                 "name": "박",
                 "phone_number": "08475755",
-                "photo": "./photos/random_photo.png",
+                "photo": random_photo,
                 "role": "팀원",
                 "department": "경영지원부"
             },
@@ -74,7 +76,7 @@
                 "id": 9,
                 "name": "홍길동",
                 "phone_number": "084757553",
-                "photo": "./photos/random_photo.png",
+                "photo": random_photo,
                 "role": "팀원",
                 "department": "경영지원부"
             },
@@ -82,7 +84,7 @@
                 "id": 10,
                 "name": "박",
                 "phone_number": "08475755",
-                "photo": "./photos/random_photo.png",
+                "photo": random_photo,
                 "role": "팀원",
                 "department": "경영지원부"
             },
@@ -90,7 +92,7 @@
                 "id": 11,
                 "name": "박",
                 "phone_number": "08475755",
-                "photo": "./photos/random_photo.png",
+                "photo": random_photo,
                 "role": "팀원",
                 "department": "경영지원부"
             },
@@ -98,7 +100,7 @@
                 "id": 12,
                 "name": "홍길동",
                 "phone_number": "084757553",
-                "photo": "./photos/random_photo.png",
+                "photo": random_photo,
                 "role": "팀원",
                 "department": "경영지원부"
             },
@@ -106,7 +108,7 @@
                 "id": 13,
                 "name": "박",
                 "phone_number": "08475755",
-                "photo": "./photos/random_photo.png",
+                "photo": random_photo,
                 "role": "팀원",
                 "department": "경영지원부"
             },
@@ -114,7 +116,7 @@
                 "id": 14,
                 "name": "박",
                 "phone_number": "08475755",
-                "photo": "./photos/random_photo.png",
+                "photo": random_photo,
                 "role": "팀원",
                 "department": "경영지원부"
             }
@@ -124,7 +126,7 @@
                 "id": 30,
                 "name": "홍길동",
                 "phone_number": "084757553",
-                "photo": "./photos/random_photo.png",
+                "photo": random_photo,
                 "role": "팀원",
                 "department": "개발4팀"
             },
@@ -132,7 +134,7 @@
                 "id": 40,
                 "name": "박",
                 "phone_number": "08475755",
-                "photo": "./photos/random_photo.png",
+                "photo": random_photo,
                 "role": "팀원",
                 "department": "개발4팀"
             },
@@ -140,7 +142,7 @@
                 "id": 50,
                 "name": "크리스",
                 "phone_number": "08475755",
-                "photo": "./photos/chris_photo.jpeg",
+                "photo": chris_photo,
                 "role": "팀원",
                 "department": "개발4팀"
             }
