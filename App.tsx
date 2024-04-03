@@ -14,8 +14,9 @@ import {
   ImageBackground
 } from 'react-native';
 
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { MD3DarkTheme, useTheme } from 'react-native-paper';
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Entypo from "react-native-vector-icons/Entypo";
@@ -28,16 +29,14 @@ import { StaffContactsScreen } from './screens/staffContacts';
 import { AnnouncementScreen } from './screens/announcement';
 import { SalaryManagementScreen } from './screens/salaryManagement';
 import { AttendanceAndBonusScreen } from './screens/attendanceAndBonus';
+import {AnnouncementDisplay}from './components/announcementDisplay';
 
+const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
 
-
-function App(): React.JSX.Element {
-  const Tab = createBottomTabNavigator();
-
-
+function BottomTabs(){
   return (
     <>
-    <NavigationContainer >
       <Tab.Navigator  
         screenOptions={{headerShown: false,
         tabBarActiveTintColor: 'yellow',
@@ -129,13 +128,33 @@ function App(): React.JSX.Element {
                 />
               );
             },
-          }} 
+          }
+        } 
         />              
       </Tab.Navigator>
-    </NavigationContainer>
   
     </>
   );
+}
+
+function App(): React.JSX.Element {
+ return(
+   <NavigationContainer>
+    <Stack.Navigator
+      screenOptions={{headerShown:false}}>
+      <Stack.Screen 
+        name="BottomTabs"
+        component={BottomTabs}
+      />
+      <Stack.Screen 
+      name="Announcement"
+      component={AnnouncementDisplay}/>
+    </Stack.Navigator>
+   </NavigationContainer> 
+ )
+
+
+
 }
 
 const styles = StyleSheet.create({

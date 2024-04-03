@@ -3,12 +3,18 @@ import * as React from "react"
 import { HeaderComponent } from "../components/headerComponent";
 import { NavigationContainer } from '@react-navigation/native';
 import data from "../assets/information.json";
+import { opacity } from "react-native-reanimated/lib/typescript/reanimated2/Colors";
 
 
 
 
 
-export const HomeScreen = (navigation: any, screenName: any) => {
+export const HomeScreen = ({navigation, screenName}:any) => {
+  const [attendanceHour, setAttendanceHour] = React.useState(-1);
+  const [attendanceMinute, setAttendanceMinute] = React.useState(-1);
+  const [goHomeHour, setGoHomeHour] = React.useState(-1);
+  const [goHomeMinute, setGoHomeMinute] = React.useState(-1);
+  const [isButtonDisabled, setButtonDisabled] = React.useState(false);
   // React.useEffect(()=>{
   //   console.log(data.employee.it_research);
   // });
@@ -18,6 +24,24 @@ export const HomeScreen = (navigation: any, screenName: any) => {
   let date = dateToday.getDate();
   let day = new Date().toLocaleDateString("kor-KOR", { weekday: 'short' })
 
+
+
+  const getAttendanceTime = () => {
+    let timeAndDate = new Date();
+    let attendanceHour = timeAndDate.getHours();
+    let attendanceMinute = timeAndDate.getMinutes();
+    setAttendanceHour(attendanceHour);
+    setAttendanceMinute(attendanceMinute);
+    setButtonDisabled(true);
+  }
+
+  const getGoHomeTime = () => {
+    let timeAndDate = new Date();
+    let goHomehour = timeAndDate.getHours();
+    let goHomeMinute = timeAndDate.getMinutes();
+    setGoHomeHour(goHomehour);
+    setGoHomeMinute(goHomeMinute);
+  }
   interface Props {
     title: any
     description: any
@@ -26,11 +50,13 @@ export const HomeScreen = (navigation: any, screenName: any) => {
 
   const AnnouncementItem: React.FC<Props> = ({ title, description, publication_date }) => {
     return (
+      <TouchableOpacity onPress={()=>navigation.navigate("Announcement")}>
       <View style={styles.announcementStyle}>
         <Text style={styles.titleStyle}> •{title}</Text>
         <Text style={styles.dateStyle}>{publication_date}</Text>
 
       </View>
+      </TouchableOpacity>
     );
   }
 
@@ -50,7 +76,7 @@ export const HomeScreen = (navigation: any, screenName: any) => {
   return (
     <SafeAreaView>
       <HeaderComponent navigation={navigation} screenName="" />
-      <View style={{height:600}}>
+      <View style={{ height: 610 }}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.profile}>
             <Image
@@ -68,22 +94,35 @@ export const HomeScreen = (navigation: any, screenName: any) => {
           <View style={styles.attendance}>
             <View>
               <Text >출근시간</Text>
-              <Text style={styles.attendanceTime}>-</Text>
+              {
+                attendanceHour==-1?
+                <Text style={styles.attendanceTime}>-</Text>
+                :
+                <Text style={styles.attendanceTime}>{attendanceHour}:{attendanceMinute}</Text>
+              }
+              
             </View>
             <View>
               <Text>퇴근시간</Text>
-              <Text style={styles.attendanceTime}>-</Text>
+              {
+                goHomeHour==-1?
+                <Text style={styles.attendanceTime}>-</Text>
+                :
+                <Text style={styles.attendanceTime}>{goHomeHour}:{goHomeMinute}</Text>
+              }
             </View>
           </View>
           <View style={styles.checkButtonSection}>
-            <TouchableOpacity >
-              <View style={styles.checkButton}>
-                <Text >출근하기</Text>
+            <TouchableOpacity 
+            onPress={getAttendanceTime}
+            disabled={isButtonDisabled}>
+              <View style={isButtonDisabled?styles.inactiveAttendanceCheckButton:styles.activeAttendanceCheckButton}>
+                <Text style={{color:"#004A94"}}>출근하기</Text>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity >
-              <View style={styles.checkButton}>
-                <Text>퇴근하기</Text>
+            <TouchableOpacity onPress={getGoHomeTime}>
+              <View style={styles.goHomeCheckButton}>
+                <Text style={{color:"#004A94"}}>퇴근하기</Text>
               </View>
             </TouchableOpacity>
           </View>
@@ -157,14 +196,37 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginRight: 10
   },
-  checkButton: {
+  activeAttendanceCheckButton: {
     alignItems: "center",
     justifyContent: "center",
     height: 40,
     width: 180,
     borderRadius: 5,
     borderWidth: 1,
-    borderColor: "gray",
+    borderColor: "#004A94",
+    marginTop: 10,
+   
+  },
+  inactiveAttendanceCheckButton: {
+    alignItems: "center",
+    justifyContent: "center",
+    height: 40,
+    width: 180,
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: "#004A94",
+    marginTop: 10,
+    opacity:0.6
+   
+  },
+  goHomeCheckButton: {
+    alignItems: "center",
+    justifyContent: "center",
+    height: 40,
+    width: 180,
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: "#004A94",
     marginTop: 10
   },
   separationLine: {
@@ -216,8 +278,8 @@ const styles = StyleSheet.create({
     height: 5,
     marginTop: 30
   },
-  bottomSpace:{
+  bottomSpace: {
     //backgroundColor:"white",
-    height:85
+    height: 85
   }
 });

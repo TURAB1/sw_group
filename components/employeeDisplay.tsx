@@ -7,21 +7,24 @@ import { data } from "../assets/information";
 export const EmployeeDisplay = () => {
     const [modalVisible, setModalVisible] = React.useState(false);
     const [employeeName,setEmployeeName]=React.useState("");
-    const [employeePhoto,setEmployeePhoto]=React.useState("")
+    const [employeePhoto,setEmployeePhoto]=React.useState(1);
+    const [employeePhoneNumber,setEmployeePhoneNumber]=React.useState("");
     
-    const handleEmployeeClick=(photo:any,name:any)=>{
+    const handleEmployeeClick=(photo:any,name:any,phoneNumber:any)=>{
        setEmployeeName(name);
        setEmployeePhoto(photo);
-       setModalVisible(true)
+       setEmployeePhoneNumber(phoneNumber);
+       setModalVisible(true);
    
 
     }
     type ItemProps = {
         photo: any
         name: any
+        phoneNumber:any
     };
 
-    const EmployeeItem = ({ photo, name }: ItemProps) => {
+    const EmployeeItem = ({ photo, name,phoneNumber}: ItemProps) => {
         return (
             <View>
                 <Modal
@@ -34,16 +37,22 @@ export const EmployeeDisplay = () => {
                     }}>
                     <View style={styles.centeredView}>
                         <View style={styles.modalView}>
+                            <Image
+                            style={styles.employeePhoto}
+                            source={employeePhoto}
+                            />
+                            <Text style={styles.modalText}>{employeePhoneNumber}</Text>
                             <Text style={styles.modalText}>{employeeName}</Text>
+                            
                             <TouchableOpacity
                                 style={[styles.button, styles.buttonClose]}
                                 onPress={() => setModalVisible(!modalVisible)}>
-                                <Text style={styles.textStyle}>close</Text>
+                                <Text style={styles.textStyle}>닫기</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
                 </Modal>
-                <TouchableOpacity onPress={()=>handleEmployeeClick(photo,name)}>
+                <TouchableOpacity onPress={()=>handleEmployeeClick(photo,name,phoneNumber)}>
                     <View style={styles.employee}>
                         <Image
                             style={styles.profilePhoto}
@@ -65,7 +74,7 @@ export const EmployeeDisplay = () => {
 
                 <FlatList
                     data={data.employee.executive}
-                    renderItem={({ item, index }) => <EmployeeItem key={index} photo={item.photo} name={item.name} />}
+                    renderItem={({ item, index }) => <EmployeeItem key={index} photo={item.photo} name={item.name} phoneNumber={item.phone_number} />}
                     numColumns={5}
                     scrollEnabled={false}
                 />
@@ -77,7 +86,7 @@ export const EmployeeDisplay = () => {
 
                 <FlatList
                     data={data.employee.audit}
-                    renderItem={({ item, index }) => <EmployeeItem key={index} photo={item.photo} name={item.name} />}
+                    renderItem={({ item, index }) => <EmployeeItem key={index} photo={item.photo} name={item.name} phoneNumber={item.phone_number}/>}
                     numColumns={5}
                     scrollEnabled={false}
                 />
@@ -89,7 +98,7 @@ export const EmployeeDisplay = () => {
 
                 <FlatList
                     data={data.employee.finance}
-                    renderItem={({ item, index }) => <EmployeeItem key={index} photo={item.photo} name={item.name} />}
+                    renderItem={({ item, index }) => <EmployeeItem key={index} photo={item.photo} name={item.name} phoneNumber={item.phone_number}/>}
                     numColumns={5}
                     scrollEnabled={false}
                 />
@@ -101,7 +110,7 @@ export const EmployeeDisplay = () => {
 
                 <FlatList
                     data={data.employee.it_research}
-                    renderItem={({ item, index }) => <EmployeeItem key={index} photo={item.photo} name={item.name} />}
+                    renderItem={({ item, index }) => <EmployeeItem key={index} photo={item.photo} name={item.name} phoneNumber={item.phone_number}/>}
                     numColumns={5}
                     scrollEnabled={false}
                 />
@@ -142,11 +151,16 @@ const styles = StyleSheet.create({
         height: 50,
         borderRadius: 50
     },
+    employeePhoto: {
+        width: 100,
+        height: 80,
+    },
     centeredView: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 22,
+
       },
       modalView: {
         margin: 20,
@@ -162,7 +176,22 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 4,
         elevation: 5,
-      },
+    },
+        // modalView: {
+        //     margin: 20,
+        //     backgroundColor: 'white',
+        //     borderRadius: 20,
+        //     padding: 35,
+        //     alignItems: 'center',
+        //     shadowColor: '#000',
+        //     shadowOffset: {
+        //       width: 0,
+        //       height: 2,
+        //     },
+    //     shadowOpacity: 0.25,
+    //     shadowRadius: 4,
+    //     elevation: 5,
+    //   },
       button: {
         borderRadius: 20,
         padding: 10,

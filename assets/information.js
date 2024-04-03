@@ -7,7 +7,7 @@ export const data={
             {
                 "id": 1,
                 "name": "CEO",
-                "phone_number": "08475755",
+                "phone_number": "0108475755",
                 "photo": random_photo,
                 "role": "",
                 "department": "임원실"
@@ -15,7 +15,7 @@ export const data={
             {
                 "id": 2,
                 "name": "홍길동",
-                "phone_number": "2084757552",
+                "phone_number": "01084757552",
                 "photo": random_photo,
                 "role": "",
                 "department": "임원실"
@@ -23,7 +23,7 @@ export const data={
             {
                 "id": 3,
                 "name": "홍길동",
-                "phone_number": "08475755",
+                "phone_number": "0108475755",
                 "photo": random_photo,
                 "role": "",
                 "department": "임원실"
@@ -31,7 +31,7 @@ export const data={
             {
                 "id": 4,
                 "name": "홍길동",
-                "phone_number": "2084757552",
+                "phone_number": "01084757552",
                 "photo":random_photo,
                 "role": "",
                 "department": "임원실"
@@ -41,7 +41,7 @@ export const data={
             {
                 "id": 5,
                 "name": "홍길동",
-                "phone_number": "2084757552",
+                "phone_number": "0102084757552",
                 "photo": random_photo,
                 "role": "",
                 "department": "감사"
@@ -51,7 +51,7 @@ export const data={
             {
                 "id": 6,
                 "name": "홍길동",
-                "phone_number": "084757553",
+                "phone_number": "01084757553",
                 "photo": random_photo,
                 "role": "팀원",
                 "department": "경영지원부"
@@ -59,7 +59,7 @@ export const data={
             {
                 "id": 7,
                 "name": "박",
-                "phone_number": "08475755",
+                "phone_number": "0108475755",
                 "photo": random_photo,
                 "role": "팀원",
                 "department": "경영지원부"
@@ -67,7 +67,7 @@ export const data={
             {
                 "id": 8,
                 "name": "박",
-                "phone_number": "08475755",
+                "phone_number": "0108475755",
                 "photo": random_photo,
                 "role": "팀원",
                 "department": "경영지원부"
@@ -75,7 +75,7 @@ export const data={
             {
                 "id": 9,
                 "name": "홍길동",
-                "phone_number": "084757553",
+                "phone_number": "01084757553",
                 "photo": random_photo,
                 "role": "팀원",
                 "department": "경영지원부"
@@ -83,7 +83,7 @@ export const data={
             {
                 "id": 10,
                 "name": "박",
-                "phone_number": "08475755",
+                "phone_number": "0108475755",
                 "photo": random_photo,
                 "role": "팀원",
                 "department": "경영지원부"
@@ -91,7 +91,7 @@ export const data={
             {
                 "id": 11,
                 "name": "박",
-                "phone_number": "08475755",
+                "phone_number": "0108475755",
                 "photo": random_photo,
                 "role": "팀원",
                 "department": "경영지원부"
@@ -99,7 +99,7 @@ export const data={
             {
                 "id": 12,
                 "name": "홍길동",
-                "phone_number": "084757553",
+                "phone_number": "01084757553",
                 "photo": random_photo,
                 "role": "팀원",
                 "department": "경영지원부"
@@ -107,7 +107,7 @@ export const data={
             {
                 "id": 13,
                 "name": "박",
-                "phone_number": "08475755",
+                "phone_number": "0108475755",
                 "photo": random_photo,
                 "role": "팀원",
                 "department": "경영지원부"
@@ -115,7 +115,7 @@ export const data={
             {
                 "id": 14,
                 "name": "박",
-                "phone_number": "08475755",
+                "phone_number": "0108475755",
                 "photo": random_photo,
                 "role": "팀원",
                 "department": "경영지원부"
@@ -125,7 +125,7 @@ export const data={
             {
                 "id": 30,
                 "name": "홍길동",
-                "phone_number": "084757553",
+                "phone_number": "01084757553",
                 "photo": random_photo,
                 "role": "팀원",
                 "department": "개발4팀"
@@ -133,7 +133,7 @@ export const data={
             {
                 "id": 40,
                 "name": "박",
-                "phone_number": "08475755",
+                "phone_number": "0108475755",
                 "photo": random_photo,
                 "role": "팀원",
                 "department": "개발4팀"
@@ -141,7 +141,7 @@ export const data={
             {
                 "id": 50,
                 "name": "크리스",
-                "phone_number": "08475755",
+                "phone_number": "0108475755",
                 "photo": chris_photo,
                 "role": "팀원",
                 "department": "개발4팀"
