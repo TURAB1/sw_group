@@ -1,15 +1,17 @@
-import { Image, StyleSheet, Text, View, TouchableOpacity, ScrollView, SafeAreaView } from "react-native"
+import { Image, StyleSheet, Text, View, TouchableOpacity, ScrollView, SafeAreaView, FlatList, Dimensions, Platform } from "react-native"
 import * as React from "react"
 import { HeaderComponent } from "../components/headerComponent";
 import { NavigationContainer } from '@react-navigation/native';
-import data from "../assets/information.json";
+import {data }from "../assets/information";
 import { opacity } from "react-native-reanimated/lib/typescript/reanimated2/Colors";
+const { width, height } = Dimensions.get("window");
+let screenHeight:number=height;
 
 
 
 
 
-export const HomeScreen = ({navigation, screenName}:any) => {
+export const HomeScreen = ({ navigation, screenName }: any) => {
   const [attendanceHour, setAttendanceHour] = React.useState(-1);
   const [attendanceMinute, setAttendanceMinute] = React.useState(-1);
   const [goHomeHour, setGoHomeHour] = React.useState(-1);
@@ -22,7 +24,7 @@ export const HomeScreen = ({navigation, screenName}:any) => {
   let year = dateToday.getFullYear();
   let month = dateToday.getMonth() + 1;
   let date = dateToday.getDate();
-  let day = new Date().toLocaleDateString("kor-KOR", { weekday: 'short' })
+  let day = new Date().toLocaleDateString("ko-KR", { weekday: 'short' })
 
 
 
@@ -50,23 +52,41 @@ export const HomeScreen = ({navigation, screenName}:any) => {
 
   const AnnouncementItem: React.FC<Props> = ({ title, description, publication_date }) => {
     return (
-      <TouchableOpacity onPress={()=>navigation.navigate("Announcement")}>
-      <View style={styles.announcementStyle}>
-        <Text style={styles.titleStyle}> •{title}</Text>
-        <Text style={styles.dateStyle}>{publication_date}</Text>
+      <TouchableOpacity onPress={() => navigation.navigate("Announcement")}>
+        <View style={styles.announcementStyle}>
+          <Text style={styles.titleStyle}> •{title}</Text>
+          <Text style={styles.dateStyle}>{publication_date}</Text>
 
-      </View>
+        </View>
       </TouchableOpacity>
     );
   }
 
-  const displayAnnouncement = () => {
-    return data.announcement.map((item: any, index: any) => {
-      if (index < 3)
-        return (
-          <AnnouncementItem key={index} title={item.title} description={item.description} publication_date={item.publication_date} />
-        )
-    }
+  // const displayAnnouncement = () => {
+  //   return data.announcement.map((item: any, index: any) => {
+  //     if (index < 3)
+  //       return (
+  //         <AnnouncementItem key={index} title={item.title} description={item.description} publication_date={item.publication_date} />
+  //       )
+  //   }
+  //   )
+
+  // }
+  const displayAnnouncement=()=>{
+    return (
+      <FlatList
+        data={data.announcement}
+        renderItem={({ item, index }) =>
+         index < 3?<AnnouncementItem 
+         key={index} 
+         title={item.title} 
+         description={item.description} 
+         publication_date={item.publication_date} 
+         />:<></>
+        }
+        showsVerticalScrollIndicator={false}
+        scrollEnabled={false}
+      />
     )
 
   }
@@ -76,7 +96,8 @@ export const HomeScreen = ({navigation, screenName}:any) => {
   return (
     <SafeAreaView>
       <HeaderComponent navigation={navigation} screenName="" />
-      <View style={{ height: 610 }}>
+      {/* <View style={{ height: 620}}> */}
+      <View  style={styles.homeScroll}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.profile}>
             <Image
@@ -87,42 +108,45 @@ export const HomeScreen = ({navigation, screenName}:any) => {
               <Text style={styles.profileInfo}>[개발4팀] 크리스팀원</Text>
               <Text style={styles.profileInfo}>성원애드피아</Text>
             </View>
+            <View style={styles.space}>
+
+            </View>
           </View>
           <View style={styles.dateSection}>
             <Text>{year.toString()}-{month.toString()}-{date.toString()}({day.toString()})</Text>
           </View>
           <View style={styles.attendance}>
             <View>
-              <Text >출근시간</Text>
+              <Text style={styles.attendanceStyle}>출근시간</Text>
               {
-                attendanceHour==-1?
-                <Text style={styles.attendanceTime}>-</Text>
-                :
-                <Text style={styles.attendanceTime}>{attendanceHour}:{attendanceMinute}</Text>
+                attendanceHour == -1 ?
+                  <Text style={styles.attendanceTime}>-</Text>
+                  :
+                  <Text style={styles.attendanceTime}>{attendanceHour}:{attendanceMinute}</Text>
               }
-              
+
             </View>
             <View>
-              <Text>퇴근시간</Text>
+              <Text style={styles.attendanceStyle}>퇴근시간</Text>
               {
-                goHomeHour==-1?
-                <Text style={styles.attendanceTime}>-</Text>
-                :
-                <Text style={styles.attendanceTime}>{goHomeHour}:{goHomeMinute}</Text>
+                goHomeHour == -1 ?
+                  <Text style={styles.attendanceTime}>-</Text>
+                  :
+                  <Text style={styles.attendanceTime}>{goHomeHour}:{goHomeMinute}</Text>
               }
             </View>
           </View>
           <View style={styles.checkButtonSection}>
-            <TouchableOpacity 
-            onPress={getAttendanceTime}
-            disabled={isButtonDisabled}>
-              <View style={isButtonDisabled?styles.inactiveAttendanceCheckButton:styles.activeAttendanceCheckButton}>
-                <Text style={{color:"#004A94"}}>출근하기</Text>
+            <TouchableOpacity
+              onPress={getAttendanceTime}
+              disabled={isButtonDisabled}>
+              <View style={isButtonDisabled ? styles.inactiveAttendanceCheckButton : styles.activeAttendanceCheckButton}>
+                <Text style={{ color: "#004A94" }}>출근하기</Text>
               </View>
             </TouchableOpacity>
             <TouchableOpacity onPress={getGoHomeTime}>
               <View style={styles.goHomeCheckButton}>
-                <Text style={{color:"#004A94"}}>퇴근하기</Text>
+                <Text style={{ color: "#004A94" }}>퇴근하기</Text>
               </View>
             </TouchableOpacity>
           </View>
@@ -133,7 +157,7 @@ export const HomeScreen = ({navigation, screenName}:any) => {
               <Text style={styles.annualLeaveManagementText}>연차계획관리</Text>
             </View>
           </View>
-          <View style={styles.separationLine}></View>
+          <View style={styles.separationLine2}></View>
           <View style={styles.announcement}>
             <Text style={styles.titleStyle}>최근 공지사항</Text>
             {
@@ -154,21 +178,25 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     alignItems: "center",
     backgroundColor: "#004A94",
-    height: 70,
-    marginTop: 20,
+    height: "8%",
+    marginTop: 30,
     marginLeft: 10,
     marginRight: 10,
-    borderRadius: 5
+    borderRadius: 10
   },
   photo: {
-    width: 60,
-    height: 60,
-    borderRadius: 60
+    width: 40,
+    height: 40,
+    borderRadius: 40,
   },
   profileInfo: {
     color: "white",
     fontSize: 18,
     fontWeight: "bold"
+  },
+  space: {
+    height: 20,
+    width: 20
   },
   dateSection: {
     marginTop: 20,
@@ -187,6 +215,9 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginRight: 5
   },
+  attendanceStyle: {
+    opacity: 0.4
+  },
   attendanceTime: {
     alignSelf: "center"
   },
@@ -204,8 +235,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderWidth: 1,
     borderColor: "#004A94",
-    marginTop: 10,
-   
+    marginTop: 15,
+
   },
   inactiveAttendanceCheckButton: {
     alignItems: "center",
@@ -215,9 +246,9 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderWidth: 1,
     borderColor: "#004A94",
-    marginTop: 10,
-    opacity:0.6
-   
+    marginTop: 15,
+    opacity: 0.6
+
   },
   goHomeCheckButton: {
     alignItems: "center",
@@ -227,9 +258,14 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderWidth: 1,
     borderColor: "#004A94",
-    marginTop: 10
+    marginTop: 15
   },
   separationLine: {
+    backgroundColor: "#D1D1D1",
+    height: 5,
+    marginTop: 15
+  },
+  separationLine2: {
     backgroundColor: "#D1D1D1",
     height: 5,
     marginTop: 10
@@ -256,27 +292,36 @@ const styles = StyleSheet.create({
 
 
   },
+  homeScroll:{
+    height:Platform.OS==="ios"?650:610,
+   
+  },
   announcement: {
-    marginTop: 20,
+    marginTop: Platform.OS === 'ios'?50:20,
     marginLeft: 10,
-    marginRight: 10
+    marginRight: 10,
+   // backgroundColor:"blue",
+    height:"40%",
+    justifyContent: "space-between"
   },
   announcementStyle: {
-    marginTop: 15,
+    marginTop: Platform.OS==="ios"?25:15,
     marginLeft: 5,
-    marginRight: 5
+    marginRight: 5,
+    
   },
   titleStyle: {
-    fontWeight: "bold",
+    //fontWeight: "bold",
     fontSize: 16
   },
   dateStyle: {
-    fontWeight: "100"
+    //fontWeight: "100"
+    opacity:0.5
   },
   bottomLine: {
     backgroundColor: "#D1D1D1",
     height: 5,
-    marginTop: 30
+    marginTop: Platform.OS==="ios"?10:35
   },
   bottomSpace: {
     //backgroundColor:"white",

@@ -1,45 +1,45 @@
 import * as React from "react";
-import { Image, StyleSheet, Text, View,TouchableWithoutFeedback } from "react-native"
+import { Image, StyleSheet, Text, View, TouchableWithoutFeedback, Dimensions } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context";
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { NavigationContainer ,DrawerActions} from '@react-navigation/native';
+import { NavigationContainer, DrawerActions } from '@react-navigation/native';
 import { HomeScreen } from "../screens/homeScreen";
 import { StaffContactsScreen } from "../screens/staffContacts";
-import  launchDrawer  from "../App";
-
+const { width, height } = Dimensions.get("window");
+let screenHeight:number=height;
 
 
 const Drawer = createDrawerNavigator();
 
-interface Props{
- navigation:any 
- screenName:any
+interface Props {
+  navigation: any
+  screenName: any
 
 }
-export const HeaderComponent:React.FC<Props>=({navigation,screenName})=>{
- 
-  return(
-      
-    <View>
-       <View style={styles.headerSection}> 
-           <Image 
-             style={styles.swLogo}
-             source={require("../assets/images/app_logo.png")}/>
-           <Text> {screenName}</Text>
+export const HeaderComponent: React.FC<Props> = ({ navigation, screenName }) => {
 
-           <TouchableWithoutFeedback onPress={launchDrawer}>
-           <Image
-             style={styles.menuIcon}
-             source={require("../assets/images/menu_icon.png")}
-             />
-           </TouchableWithoutFeedback>  
-           </View>
-       <View 
-       style={styles.headerLine}>
+  return (
+
+    <View style={styles.headerContainer}>
+      <View style={styles.headerSection}>
+        <Image
+          style={styles.swLogo}
+          source={require("../assets/images/app_logo.png")} />
+        <Text style={styles.screenName}> {screenName}</Text>
+
+        <TouchableWithoutFeedback onPress={() => navigation.openDrawer()}>
+          <Image
+            style={styles.menuIcon}
+            source={require("../assets/images/menu_icon.png")}
+          />
+        </TouchableWithoutFeedback>
+      </View>
+      <View
+        style={styles.headerLine}>
       </View>
     </View>
 
-   )
+  )
   // return (
   //   <NavigationContainer independent={true}>
   //     <Drawer.Navigator 
@@ -57,26 +57,34 @@ export const HeaderComponent:React.FC<Props>=({navigation,screenName})=>{
 
 
 }
-const styles=StyleSheet.create({
-  headerSection:{
-   marginTop:10,
-   flexDirection:"row",
-   justifyContent:"space-between"
+const styles = StyleSheet.create({
+
+  headerContainer:{
+    marginTop: screenHeight*2/100,
+    height:screenHeight*5/100
   },
-  headerLine:{
-   marginTop:10, 
-   backgroundColor:"#D1D1D1",
-   height:0.3
+  headerSection: {
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
-  swLogo:{
-    marginLeft:5,
-    height:28,
-    width:35
+  headerLine: {
+    marginTop: screenHeight*2/100,
+    backgroundColor: "#D1D1D1",
+    height: 0.3
   },
-  menuIcon:{
-    marginRight:5,
-    height:28,
-    width:28
+  swLogo: {
+    marginLeft: 5,
+    height: 28,
+    width: 35
+  },
+    screenName: {
+    fontSize: 25,
+    opacity: 0.5
+  },
+  menuIcon: {
+    marginRight: 5,
+    height: 28,
+    width: 28
   }
 }
 

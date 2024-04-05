@@ -1,30 +1,33 @@
 import * as React from "react";
-import { Alert, FlatList, Image, Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native"
-//import data from "../assets/information.json";
+import { Alert, FlatList, Image, Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import Entypo from "react-native-vector-icons/Entypo";
 import { data } from "../assets/information";
 
 
 export const EmployeeDisplay = () => {
     const [modalVisible, setModalVisible] = React.useState(false);
-    const [employeeName,setEmployeeName]=React.useState("");
-    const [employeePhoto,setEmployeePhoto]=React.useState(1);
-    const [employeePhoneNumber,setEmployeePhoneNumber]=React.useState("");
-    
-    const handleEmployeeClick=(photo:any,name:any,phoneNumber:any)=>{
-       setEmployeeName(name);
-       setEmployeePhoto(photo);
-       setEmployeePhoneNumber(phoneNumber);
-       setModalVisible(true);
-   
+    const [employeeName, setEmployeeName] = React.useState("");
+    const [employeePhoto, setEmployeePhoto] = React.useState(1);
+    const [employeePhoneNumber, setEmployeePhoneNumber] = React.useState("");
+    const [employeeDepartment, setEmployeeDepartment] = React.useState("");
+
+    const handleEmployeeClick = (photo: any, name: any, phoneNumber: any, department: any) => {
+        setEmployeeName(name);
+        setEmployeePhoto(photo);
+        setEmployeePhoneNumber(phoneNumber);
+        setEmployeeDepartment(department)
+        setModalVisible(true);
+
 
     }
     type ItemProps = {
         photo: any
         name: any
-        phoneNumber:any
+        phoneNumber: any
+        department: any
     };
 
-    const EmployeeItem = ({ photo, name,phoneNumber}: ItemProps) => {
+    const EmployeeItem = ({ photo, name, phoneNumber, department }: ItemProps) => {
         return (
             <View>
                 <Modal
@@ -37,22 +40,30 @@ export const EmployeeDisplay = () => {
                     }}>
                     <View style={styles.centeredView}>
                         <View style={styles.modalView}>
-                            <Image
-                            style={styles.employeePhoto}
-                            source={employeePhoto}
-                            />
-                            <Text style={styles.modalText}>{employeePhoneNumber}</Text>
-                            <Text style={styles.modalText}>{employeeName}</Text>
-                            
-                            <TouchableOpacity
-                                style={[styles.button, styles.buttonClose]}
-                                onPress={() => setModalVisible(!modalVisible)}>
-                                <Text style={styles.textStyle}>닫기</Text>
-                            </TouchableOpacity>
+
+                            <View style={styles.departmentSection}>
+                                <Text>[성원애드피아]{employeeDepartment}</Text>
+                                <TouchableOpacity
+                                    onPress={() => setModalVisible(!modalVisible)}>
+                                    <Entypo name="cross" size={30} />
+                                </TouchableOpacity>
+                            </View>
+                            <View style={styles.imageSection}>
+                                <Image
+                                    style={styles.employeePhoto}
+                                    source={employeePhoto}
+                                />
+                                <View>
+                                    <Text style={styles.modalText}>{employeePhoneNumber}</Text>
+                                    <Text style={styles.modalText}>{employeeName}</Text>
+                                </View>
+
+                            </View>
+
                         </View>
                     </View>
                 </Modal>
-                <TouchableOpacity onPress={()=>handleEmployeeClick(photo,name,phoneNumber)}>
+                <TouchableOpacity onPress={() => handleEmployeeClick(photo, name, phoneNumber, department)}>
                     <View style={styles.employee}>
                         <Image
                             style={styles.profilePhoto}
@@ -74,7 +85,16 @@ export const EmployeeDisplay = () => {
 
                 <FlatList
                     data={data.employee.executive}
-                    renderItem={({ item, index }) => <EmployeeItem key={index} photo={item.photo} name={item.name} phoneNumber={item.phone_number} />}
+                    renderItem={
+                        ({ item, index }) =>
+                            <EmployeeItem
+                                key={index}
+                                photo={item.photo}
+                                name={item.name}
+                                phoneNumber={item.phone_number}
+                                department={item.department}
+                            />
+                    }
                     numColumns={5}
                     scrollEnabled={false}
                 />
@@ -86,7 +106,16 @@ export const EmployeeDisplay = () => {
 
                 <FlatList
                     data={data.employee.audit}
-                    renderItem={({ item, index }) => <EmployeeItem key={index} photo={item.photo} name={item.name} phoneNumber={item.phone_number}/>}
+                    renderItem={
+                        ({ item, index }) =>
+                            <EmployeeItem
+                                key={index}
+                                photo={item.photo}
+                                name={item.name}
+                                phoneNumber={item.phone_number}
+                                department={item.department}
+                            />
+                    }
                     numColumns={5}
                     scrollEnabled={false}
                 />
@@ -98,7 +127,16 @@ export const EmployeeDisplay = () => {
 
                 <FlatList
                     data={data.employee.finance}
-                    renderItem={({ item, index }) => <EmployeeItem key={index} photo={item.photo} name={item.name} phoneNumber={item.phone_number}/>}
+                    renderItem={
+                        ({ item, index }) =>
+                            <EmployeeItem
+                                key={index}
+                                photo={item.photo}
+                                name={item.name}
+                                phoneNumber={item.phone_number}
+                                department={item.department}
+                            />
+                    }
                     numColumns={5}
                     scrollEnabled={false}
                 />
@@ -110,7 +148,16 @@ export const EmployeeDisplay = () => {
 
                 <FlatList
                     data={data.employee.it_research}
-                    renderItem={({ item, index }) => <EmployeeItem key={index} photo={item.photo} name={item.name} phoneNumber={item.phone_number}/>}
+                    renderItem={
+                        ({ item, index }) =>
+                            <EmployeeItem
+                                key={index}
+                                photo={item.photo}
+                                name={item.name}
+                                phoneNumber={item.phone_number}
+                                department={item.department}
+                            />
+                    }
                     numColumns={5}
                     scrollEnabled={false}
                 />
@@ -152,8 +199,8 @@ const styles = StyleSheet.create({
         borderRadius: 50
     },
     employeePhoto: {
-        width: 100,
-        height: 80,
+        width: 120,
+        height: 100,
     },
     centeredView: {
         flex: 1,
@@ -161,57 +208,37 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginTop: 22,
 
-      },
-      modalView: {
+    },
+    modalView: {
         margin: 20,
         backgroundColor: 'white',
-        borderRadius: 20,
-        padding: 35,
-        alignItems: 'center',
-        shadowColor: '#000',
-        shadowOffset: {
-          width: 0,
-          height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-        elevation: 5,
-    },
-        // modalView: {
-        //     margin: 20,
-        //     backgroundColor: 'white',
-        //     borderRadius: 20,
-        //     padding: 35,
-        //     alignItems: 'center',
-        //     shadowColor: '#000',
-        //     shadowOffset: {
-        //       width: 0,
-        //       height: 2,
-        //     },
-    //     shadowOpacity: 0.25,
-    //     shadowRadius: 4,
-    //     elevation: 5,
-    //   },
-      button: {
-        borderRadius: 20,
+        borderRadius: 10,
         padding: 10,
-        elevation: 2,
-      },
-      buttonOpen: {
-        backgroundColor: '#F194FF',
-      },
-      buttonClose: {
-        backgroundColor: '#2196F3',
-      },
-      textStyle: {
-        color: 'white',
-        fontWeight: 'bold',
-        textAlign: 'center',
-      },
-      modalText: {
+
+        shadowColor: 'black',
+        shadowOffset: {
+            width: 10,
+            height: 20,
+        },
+        shadowOpacity: 0.8,
+
+    },
+    modalText: {
         marginBottom: 15,
         textAlign: 'center',
-      },
+    },
+    departmentSection: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center"
+
+    },
+    imageSection: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        marginTop: 10
+    }
 
 }
 )

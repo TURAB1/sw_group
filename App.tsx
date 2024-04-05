@@ -11,7 +11,8 @@ import {
   View,
   Button,
   Pressable,
-  ImageBackground
+  ImageBackground,
+  Dimensions
 } from 'react-native';
 
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
@@ -31,6 +32,9 @@ import { SalaryManagementScreen } from './screens/salaryManagement';
 import { AttendanceAndBonusScreen } from './screens/attendanceAndBonus';
 import {AnnouncementDisplay}from './components/announcementDisplay';
 
+const { width, height } = Dimensions.get("window");
+let screenHeight:number=height;
+
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
@@ -44,7 +48,7 @@ function BottomTabs(){
         tabBarInactiveBackgroundColor:"#004A94",
         tabBarActiveBackgroundColor:"#004A94",
         tabBarStyle: {
-          height: 85,
+          height:screenHeight*10/100,
         },
         tabBarLabelStyle:{
          fontSize:14,
@@ -137,7 +141,7 @@ function BottomTabs(){
   );
 }
 
-function App(): React.JSX.Element {
+export function App(): React.JSX.Element {
  return(
    <NavigationContainer>
     <Stack.Navigator

@@ -1,7 +1,7 @@
 import { SafeAreaView, StyleSheet, Text } from "react-native"
 import { HeaderComponent } from "../components/headerComponent";
 
-export const AttendanceAndBonusScreen = (navigation: any, screenName: any) => {
+export const AttendanceAndBonusScreen = ({navigation, screenName}:any) => {
   return (
     <SafeAreaView>
       <HeaderComponent navigation={navigation} screenName="근태/연차/수당관리" />

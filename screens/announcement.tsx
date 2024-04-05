@@ -166,10 +166,12 @@ const styles = StyleSheet.create({
     marginBottom: 13
   },
   titleStyle: {
-    fontWeight: "bold",
-    fontSize: 16
+    //fontWeight: "normal",
+    fontSize: 16,
+    
   },
   dateStyle: {
-    fontWeight: "normal"
+    //fontWeight: "normal",
+    opacity:0.5
   }
 });
