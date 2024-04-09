@@ -67,7 +67,6 @@ export const EmployeeDisplay = () => {
                     <View style={styles.employee}>
                         <Image
                             style={styles.profilePhoto}
-                            // source={require("../assets/photos/random_photo.png")}
                             source={photo}
                         />
                         <Text>{name}</Text>

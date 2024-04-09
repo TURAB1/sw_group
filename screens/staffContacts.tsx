@@ -11,7 +11,7 @@ import { data } from "../assets/information";
 
 
 
-export const StaffContactsScreen = ({navigation, screenName}:any) => {
+export const StaffContactsScreen = ({ navigation, screenName }: any) => {
   const [search, setSearch] = React.useState("");
   return (
     <SafeAreaView style={styles.staffContacts}>
@@ -100,7 +100,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "white",
     borderRadius: 5,
-    // padding:10,
     marginTop: 6,
     height: 40
   },

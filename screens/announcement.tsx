@@ -2,7 +2,7 @@ import { FlatList, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, Toucha
 import { HeaderComponent } from "../components/headerComponent";
 import { data } from "../assets/information";
 
-export const AnnouncementScreen = ({navigation, screenName}:any) => {
+export const AnnouncementScreen = ({ navigation, screenName }: any) => {
 
   interface Props {
     title: any
@@ -12,7 +12,7 @@ export const AnnouncementScreen = ({navigation, screenName}:any) => {
 
   const AnnouncementItem: React.FC<Props> = ({ title, description, publication_date }) => {
     return (
-      <TouchableOpacity onPress={()=>navigation.navigate("Announcement")}>
+      <TouchableOpacity onPress={() => navigation.navigate("Announcement")}>
         <View style={styles.announcementStyle}>
           <Text style={styles.titleStyle}> {title}</Text>
           <View style={styles.publicationDate}>
@@ -26,12 +26,6 @@ export const AnnouncementScreen = ({navigation, screenName}:any) => {
   }
 
   const displayAnnouncement = () => {
-    // return data.announcement.map((item:any,index:any)=>{
-    //  return(
-    //   <AnnouncementItem key={index} title={item.title} description={item.description} publication_date={item.publication_date}/>
-    //   )
-    //  }
-    // )
     return (
       <FlatList
         data={data.announcement}
@@ -166,12 +160,10 @@ const styles = StyleSheet.create({
     marginBottom: 13
   },
   titleStyle: {
-    //fontWeight: "normal",
     fontSize: 16,
-    
+
   },
   dateStyle: {
-    //fontWeight: "normal",
-    opacity:0.5
+    opacity: 0.5
   }
 });

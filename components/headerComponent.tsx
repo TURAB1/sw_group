@@ -1,13 +1,12 @@
 import * as React from "react";
-import { Image, StyleSheet, Text, View, TouchableWithoutFeedback, Dimensions } from "react-native"
+import { Image, Text, View, TouchableWithoutFeedback, StyleSheet } from "react-native"
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { ScaledSheet } from "react-native-size-matters";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer, DrawerActions } from '@react-navigation/native';
 import { HomeScreen } from "../screens/homeScreen";
 import { StaffContactsScreen } from "../screens/staffContacts";
-const { width, height } = Dimensions.get("window");
-let screenHeight:number=height;
-
 
 const Drawer = createDrawerNavigator();
 
@@ -40,51 +39,37 @@ export const HeaderComponent: React.FC<Props> = ({ navigation, screenName }) => 
     </View>
 
   )
-  // return (
-  //   <NavigationContainer independent={true}>
-  //     <Drawer.Navigator 
-  //       screenOptions={
-  //         {
-  //           drawerPosition:"right"
-  //         }
-  //       }
-  //     >
-  //         <Drawer.Screen name="Home" component={HomeScreen} />
-  //         <Drawer.Screen name="Staff" component={StaffContactsScreen} />
-  //     </Drawer.Navigator>
-  //   </NavigationContainer>
-  //    );
 
 
 }
-const styles = StyleSheet.create({
+const styles = ScaledSheet.create({
 
-  headerContainer:{
-    marginTop: screenHeight*2/100,
-    height:screenHeight*5/100
+  headerContainer: {
+    marginTop: "10@s",
   },
   headerSection: {
     flexDirection: "row",
     justifyContent: "space-between",
+
   },
   headerLine: {
-    marginTop: screenHeight*2/100,
+    marginTop: "10@s",
     backgroundColor: "#D1D1D1",
-    height: 0.3
+    height: "0.3@s"
   },
   swLogo: {
-    marginLeft: 5,
-    height: 28,
-    width: 35
+    marginLeft: "5@s",
+    height: "28@s",
+    width: "35@s"
   },
-    screenName: {
-    fontSize: 25,
-    opacity: 0.5
+  screenName: {
+    fontSize: "25@s",
+    opacity: "0.5@s"
   },
   menuIcon: {
-    marginRight: 5,
-    height: 28,
-    width: 28
+    marginRight: "5@s",
+    height: "28@s",
+    width: "28@s"
   }
 }
 

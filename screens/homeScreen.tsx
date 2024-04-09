@@ -1,15 +1,12 @@
-import { Image, StyleSheet, Text, View, TouchableOpacity, ScrollView, SafeAreaView, FlatList, Dimensions, Platform } from "react-native"
 import * as React from "react"
+import { Image, StyleSheet, Text, View, TouchableOpacity, ScrollView, SafeAreaView, FlatList, Dimensions } from "react-native";
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { ScaledSheet } from "react-native-size-matters";
+const { width, height } = Dimensions.get("window");
 import { HeaderComponent } from "../components/headerComponent";
 import { NavigationContainer } from '@react-navigation/native';
-import {data }from "../assets/information";
+import { data } from "../assets/information";
 import { opacity } from "react-native-reanimated/lib/typescript/reanimated2/Colors";
-const { width, height } = Dimensions.get("window");
-let screenHeight:number=height;
-
-
-
-
 
 export const HomeScreen = ({ navigation, screenName }: any) => {
   const [attendanceHour, setAttendanceHour] = React.useState(-1);
@@ -17,16 +14,12 @@ export const HomeScreen = ({ navigation, screenName }: any) => {
   const [goHomeHour, setGoHomeHour] = React.useState(-1);
   const [goHomeMinute, setGoHomeMinute] = React.useState(-1);
   const [isButtonDisabled, setButtonDisabled] = React.useState(false);
-  // React.useEffect(()=>{
-  //   console.log(data.employee.it_research);
-  // });
+
   let dateToday = new Date();
   let year = dateToday.getFullYear();
   let month = dateToday.getMonth() + 1;
   let date = dateToday.getDate();
   let day = new Date().toLocaleDateString("ko-KR", { weekday: 'short' })
-
-
 
   const getAttendanceTime = () => {
     let timeAndDate = new Date();
@@ -62,27 +55,18 @@ export const HomeScreen = ({ navigation, screenName }: any) => {
     );
   }
 
-  // const displayAnnouncement = () => {
-  //   return data.announcement.map((item: any, index: any) => {
-  //     if (index < 3)
-  //       return (
-  //         <AnnouncementItem key={index} title={item.title} description={item.description} publication_date={item.publication_date} />
-  //       )
-  //   }
-  //   )
 
-  // }
-  const displayAnnouncement=()=>{
+  const displayAnnouncement = () => {
     return (
       <FlatList
         data={data.announcement}
         renderItem={({ item, index }) =>
-         index < 3?<AnnouncementItem 
-         key={index} 
-         title={item.title} 
-         description={item.description} 
-         publication_date={item.publication_date} 
-         />:<></>
+          index < 3 ? <AnnouncementItem
+            key={index}
+            title={item.title}
+            description={item.description}
+            publication_date={item.publication_date}
+          /> : <></>
         }
         showsVerticalScrollIndicator={false}
         scrollEnabled={false}
@@ -96,8 +80,7 @@ export const HomeScreen = ({ navigation, screenName }: any) => {
   return (
     <SafeAreaView>
       <HeaderComponent navigation={navigation} screenName="" />
-      {/* <View style={{ height: 620}}> */}
-      <View  style={styles.homeScroll}>
+      <View style={styles.homeScroll}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.profile}>
             <Image
@@ -106,7 +89,7 @@ export const HomeScreen = ({ navigation, screenName }: any) => {
             />
             <View>
               <Text style={styles.profileInfo}>[개발4팀] 크리스팀원</Text>
-              <Text style={styles.profileInfo}>성원애드피아</Text>
+              <Text style={styles.profileInfo}>성원애드피아 </Text>
             </View>
             <View style={styles.space}>
 
@@ -172,51 +155,51 @@ export const HomeScreen = ({ navigation, screenName }: any) => {
   )
 
 }
-const styles = StyleSheet.create({
+const styles = ScaledSheet.create({
   profile: {
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
     backgroundColor: "#004A94",
-    height: "8%",
-    marginTop: 30,
-    marginLeft: 10,
-    marginRight: 10,
-    borderRadius: 10
+    height: "50@s",
+    marginTop: "20@s",
+    marginLeft: "10@s",
+    marginRight: "10@s",
+    borderRadius: "10@s"
   },
   photo: {
-    width: 40,
-    height: 40,
-    borderRadius: 40,
+    width: "40@s",
+    height: "40@s",
+    borderRadius: "40@s",
   },
   profileInfo: {
     color: "white",
-    fontSize: 18,
+    fontSize: "16@s",
     fontWeight: "bold"
   },
   space: {
-    height: 20,
-    width: 20
+    height: "20@s",
+    width: "20@s"
   },
   dateSection: {
-    marginTop: 20,
-    marginLeft: 10,
-    marginRight: 10
+    marginTop: "20@s",
+    marginLeft: "10@s",
+    marginRight: "10@s"
   },
   attendance: {
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
-    height: 80,
-    borderRadius: 5,
-    borderWidth: 1,
+    height: "80@s",
+    borderRadius: "5@s",
+    borderWidth: "1@s",
     borderColor: "gray",
-    marginTop: 20,
-    marginLeft: 10,
-    marginRight: 5
+    marginTop: "15@s",
+    marginLeft: "10@s",
+    marginRight: "10@s"
   },
   attendanceStyle: {
-    opacity: 0.4
+    opacity: "0.4@s"
   },
   attendanceTime: {
     alignSelf: "center"
@@ -230,50 +213,50 @@ const styles = StyleSheet.create({
   activeAttendanceCheckButton: {
     alignItems: "center",
     justifyContent: "center",
-    height: 40,
-    width: 180,
+    height: "30@s",
+    width: "160@s",
     borderRadius: 5,
     borderWidth: 1,
     borderColor: "#004A94",
-    marginTop: 15,
+    marginTop: "15@s",
 
   },
   inactiveAttendanceCheckButton: {
     alignItems: "center",
     justifyContent: "center",
-    height: 40,
-    width: 180,
+    height: "30@s",
+    width: "160@s",
     borderRadius: 5,
     borderWidth: 1,
     borderColor: "#004A94",
-    marginTop: 15,
+    marginTop: "15@s",
     opacity: 0.6
 
   },
   goHomeCheckButton: {
     alignItems: "center",
     justifyContent: "center",
-    height: 40,
-    width: 180,
+    height: "30@s",
+    width: "160@s",
     borderRadius: 5,
     borderWidth: 1,
     borderColor: "#004A94",
-    marginTop: 15
+    marginTop: "15@s"
   },
   separationLine: {
     backgroundColor: "#D1D1D1",
-    height: 5,
-    marginTop: 15
+    height: "5@s",
+    marginTop: "15@s"
   },
   separationLine2: {
     backgroundColor: "#D1D1D1",
-    height: 5,
+    height: "5@s",
     marginTop: 10
   },
   annualLeave: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginTop: 10,
+    marginTop: "10@s",
     marginLeft: 10,
     marginRight: 10
   },
@@ -292,39 +275,36 @@ const styles = StyleSheet.create({
 
 
   },
-  homeScroll:{
-    height:Platform.OS==="ios"?650:610,
-   
+  homeScroll: {
+    height: "560@s",
+
+
   },
   announcement: {
-    marginTop: Platform.OS === 'ios'?50:20,
-    marginLeft: 10,
-    marginRight: 10,
-   // backgroundColor:"blue",
-    height:"40%",
+    marginTop: "20@s",
+    marginLeft: "10@s",
+    marginRight: "10@s",
+    height: "210@s",
     justifyContent: "space-between"
   },
   announcementStyle: {
-    marginTop: Platform.OS==="ios"?25:15,
-    marginLeft: 5,
-    marginRight: 5,
-    
+    marginTop: "13@s",
+    marginLeft: "5@s",
+    marginRight: "5@s",
+
   },
   titleStyle: {
-    //fontWeight: "bold",
-    fontSize: 16
+    fontSize: "14@s"
   },
   dateStyle: {
-    //fontWeight: "100"
-    opacity:0.5
+    opacity: "0.5@s"
   },
   bottomLine: {
     backgroundColor: "#D1D1D1",
-    height: 5,
-    marginTop: Platform.OS==="ios"?10:35
+    height: "5@s",
+    marginTop: "35@s"
   },
   bottomSpace: {
-    //backgroundColor:"white",
-    height: 85
+    height: "85@s"
   }
 });
