@@ -1,8 +1,13 @@
 import * as React from 'react'
 import { Image, SafeAreaView, StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native'
 import MaterialIcons from "react-native-vector-icons/MaterialIcons"
+import { useDispatch, useSelector } from 'react-redux'
 
 export const AnnouncementDisplay = ({ navigation }: any) => {
+    const announcement= useSelector((state: any) => state.announcement);
+
+    const dispatch = useDispatch<any>();
+
     return (
         <SafeAreaView style={styles.announcementHeader}>
             <View style={styles.headerSection}>
@@ -15,6 +20,10 @@ export const AnnouncementDisplay = ({ navigation }: any) => {
 
             <View
                 style={styles.headerLine}>
+            </View>
+            <Text style={{fontWeight:"bold",marginTop:10}}>{announcement.title}</Text>
+            <View style={{marginTop:20}}>
+              <Text>{announcement.content}</Text>
             </View>
         </SafeAreaView>
     )

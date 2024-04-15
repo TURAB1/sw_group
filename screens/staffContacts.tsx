@@ -6,13 +6,25 @@ import { EmployeeDisplay } from "../components/employeeDisplay";
 import Entypo from "react-native-vector-icons/Entypo";
 import Feather from "react-native-vector-icons/Feather"
 import { SearchBar } from "@rneui/themed";
+import { SearchFilter } from "../components/searchFilter";
 import { data } from "../assets/information";
 
 
 
 
 export const StaffContactsScreen = ({ navigation, screenName }: any) => {
-  const [search, setSearch] = React.useState("");
+  const [input, setInput] = React.useState("");
+  const [employeeData,setEmployeeData]=React.useState({})
+ 
+  React.useEffect(()=>{
+   let executive=data.employee.executive;
+   let audit=data.employee.audit;
+   let finance=data.employee.finance;
+   let it_research=data.employee.it_research
+   const employeeData=executive.concat(audit).concat(finance).concat(it_research)
+   setEmployeeData(employeeData);
+   
+  },[]);
   return (
     <SafeAreaView style={styles.staffContacts}>
       <HeaderComponent navigation={navigation} screenName="회사연락망" />
@@ -44,11 +56,20 @@ export const StaffContactsScreen = ({ navigation, screenName }: any) => {
         <TextInput
           style={styles.searchInput}
           placeholder="검색하기"
-          keyboardType="ascii-capable" />
+          keyboardType="default"
+          multiline={true}
+
+          value={input}
+          onChangeText={(text) => setInput(text)} />
       </View>
-      <View style={{ height: 510 }}>
-        <EmployeeDisplay />
-      </View>
+      {input == ""
+        ?
+        <View style={{ height: 510 }}>
+          <EmployeeDisplay />
+        </View>
+        :
+        <SearchFilter data={employeeData} input={input} setInput={setInput} />
+      }
 
     </SafeAreaView>
   )

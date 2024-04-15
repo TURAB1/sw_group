@@ -58,6 +58,15 @@
 		<string>Octicons.ttf</string>
 		<string>Zocial.ttf</string>
 		<string>Fontisto.ttf</string>
+		<string>Noto Sans KR Black.ttf</string>
+		<string>Noto Sans KR Bold.ttf</string>
+		<string>Noto Sans KR Extra Bold.ttf</string>
+		<string>Noto Sans KR Extra Light.ttf</string>
+		<string>Noto Sans KR Light.ttf</string>
+		<string>Noto Sans KR Medium.ttf</string>
+		<string>Noto Sans KR Regular.ttf</string>
+		<string>Noto Sans KR Semi Bold.ttf</string>
+		<string>Noto Sans KR Thin.ttf</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>

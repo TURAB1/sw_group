@@ -1,19 +1,35 @@
 import * as React from "react"
-import { Image, StyleSheet, Text, View, TouchableOpacity, ScrollView, SafeAreaView, FlatList, Dimensions } from "react-native";
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import {
+  Image,
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  ScrollView,
+  SafeAreaView,
+  FlatList,
+  PixelRatio,
+  Platform
+} from "react-native";
+
 import { ScaledSheet } from "react-native-size-matters";
-const { width, height } = Dimensions.get("window");
+import { opacity } from "react-native-reanimated/lib/typescript/reanimated2/Colors";
 import { HeaderComponent } from "../components/headerComponent";
 import { NavigationContainer } from '@react-navigation/native';
-import { data } from "../assets/information";
-import { opacity } from "react-native-reanimated/lib/typescript/reanimated2/Colors";
+import { data } from "../assets/information.ts";
+import { UseDispatch, useDispatch } from "react-redux";
+import { setTitle,setContent } from "../Global/reducers/announcement_reducer.ts";
 
-export const HomeScreen = ({ navigation, screenName }: any) => {
+
+export const HomeScreen = ({ navigation, screenName,props}: any) => {
   const [attendanceHour, setAttendanceHour] = React.useState(-1);
   const [attendanceMinute, setAttendanceMinute] = React.useState(-1);
   const [goHomeHour, setGoHomeHour] = React.useState(-1);
   const [goHomeMinute, setGoHomeMinute] = React.useState(-1);
   const [isButtonDisabled, setButtonDisabled] = React.useState(false);
+  const dispatch=useDispatch<any>();
+
+
 
   let dateToday = new Date();
   let year = dateToday.getFullYear();
@@ -37,6 +53,11 @@ export const HomeScreen = ({ navigation, screenName }: any) => {
     setGoHomeHour(goHomehour);
     setGoHomeMinute(goHomeMinute);
   }
+  const handleAnnouncementClick=(newsTitle:any,newsContent:any)=>{
+    dispatch(setTitle(newsTitle));
+    dispatch( setContent(newsContent));
+    navigation.navigate("Announcement");
+  }
   interface Props {
     title: any
     description: any
@@ -45,7 +66,7 @@ export const HomeScreen = ({ navigation, screenName }: any) => {
 
   const AnnouncementItem: React.FC<Props> = ({ title, description, publication_date }) => {
     return (
-      <TouchableOpacity onPress={() => navigation.navigate("Announcement")}>
+      <TouchableOpacity onPress={() =>handleAnnouncementClick(title,description)}>
         <View style={styles.announcementStyle}>
           <Text style={styles.titleStyle}> •{title}</Text>
           <Text style={styles.dateStyle}>{publication_date}</Text>
@@ -170,6 +191,8 @@ const styles = ScaledSheet.create({
   photo: {
     width: "40@s",
     height: "40@s",
+    // width:PixelRatio.getPixelSizeForLayoutSize(40),
+    // height:PixelRatio.getPixelSizeForLayoutSize(40),
     borderRadius: "40@s",
   },
   profileInfo: {
@@ -276,7 +299,7 @@ const styles = ScaledSheet.create({
 
   },
   homeScroll: {
-    height: "560@s",
+    height: Platform.OS=="ios"?"580@s":"560@s",
 
 
   },
@@ -284,17 +307,19 @@ const styles = ScaledSheet.create({
     marginTop: "20@s",
     marginLeft: "10@s",
     marginRight: "10@s",
-    height: "210@s",
+    height:  Platform.OS=="ios"?"250@s":"210@s",
     justifyContent: "space-between"
   },
   announcementStyle: {
-    marginTop: "13@s",
+    marginTop: Platform.OS=="ios"?"25@s":"13@s",
     marginLeft: "5@s",
     marginRight: "5@s",
 
   },
   titleStyle: {
-    fontSize: "14@s"
+    fontSize: "14@s",
+    fontFamily:Platform.OS=="ios"?"Noto Sans KR Regular":"Noto Sans KR Extra Thin",
+    // fontWeight:"600"
   },
   dateStyle: {
     opacity: "0.5@s"

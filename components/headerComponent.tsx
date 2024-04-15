@@ -1,6 +1,5 @@
 import * as React from "react";
-import { Image, Text, View, TouchableWithoutFeedback, StyleSheet } from "react-native"
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { Image, Text, View, TouchableWithoutFeedback, StyleSheet } from "react-native";
 import { ScaledSheet } from "react-native-size-matters";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { createDrawerNavigator } from '@react-navigation/drawer';

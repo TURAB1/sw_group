@@ -1,5 +1,15 @@
 import * as React from "react";
-import { Alert, FlatList, Image, Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+    Alert,
+    FlatList,
+    Image,
+    Modal,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View
+} from "react-native";
 import Entypo from "react-native-vector-icons/Entypo";
 import { data } from "../assets/information";
 
