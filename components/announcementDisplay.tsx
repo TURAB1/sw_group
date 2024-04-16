@@ -4,7 +4,7 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons"
 import { useDispatch, useSelector } from 'react-redux'
 
 export const AnnouncementDisplay = ({ navigation }: any) => {
-    const announcement= useSelector((state: any) => state.announcement);
+    const announcement= useSelector((state: any) => state.sungwon);
 
     const dispatch = useDispatch<any>();
 
@@ -22,9 +22,9 @@ export const AnnouncementDisplay = ({ navigation }: any) => {
                 style={styles.headerLine}>
             </View>
             <Text style={{fontWeight:"bold",marginTop:10}}>{announcement.title}</Text>
-            <View style={{marginTop:20}}>
+            {/* <View style={{marginTop:20}}>
               <Text>{announcement.content}</Text>
-            </View>
+            </View> */}
         </SafeAreaView>
     )
 }

@@ -31,7 +31,6 @@ import { AnnouncementScreen } from './screens/announcementScreen';
 import { SalaryManagementScreen } from './screens/salaryManagement';
 import { AttendanceAndBonusScreen } from './screens/attendanceAndBonus';
 import {AnnouncementDisplay}from './components/announcementDisplay';
-import { Fetchtest } from './screens/FetchTest';
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 const Drawer=createDrawerNavigator()
@@ -72,7 +71,7 @@ export const MainApp=({navigation,props}:any)=> {
         >
           <Tab.Screen  
             name="Home"
-            component={Fetchtest}
+            component={HomeScreen}
             options={{
               tabBarIcon: ({size,focused,color}) => {
                 return (

@@ -7,23 +7,29 @@ import Entypo from "react-native-vector-icons/Entypo";
 import Feather from "react-native-vector-icons/Feather"
 import { SearchBar } from "@rneui/themed";
 import { SearchFilter } from "../components/searchFilter";
+import { fetchStaffData } from "../Global/reducers/sungwon_reducer";
 import { data } from "../assets/information";
+import { useDispatch } from "react-redux";
 
 
 
 
 export const StaffContactsScreen = ({ navigation, screenName }: any) => {
   const [input, setInput] = React.useState("");
-  const [employeeData,setEmployeeData]=React.useState({})
+  const [employeeData,setEmployeeData]=React.useState({});
+  const dispatch=useDispatch<any>();
  
   React.useEffect(()=>{
+
+  dispatch(fetchStaffData());
+
    let executive=data.employee.executive;
    let audit=data.employee.audit;
    let finance=data.employee.finance;
-   let it_research=data.employee.it_research
-   const employeeData=executive.concat(audit).concat(finance).concat(it_research)
+   let it_research=data.employee.it_research;
+   const employeeData=executive.concat(audit).concat(finance).concat(it_research);
    setEmployeeData(employeeData);
-   
+
   },[]);
   return (
     <SafeAreaView style={styles.staffContacts}>
@@ -64,7 +70,7 @@ export const StaffContactsScreen = ({ navigation, screenName }: any) => {
       </View>
       {input == ""
         ?
-        <View style={{ height: 510 }}>
+        <View >
           <EmployeeDisplay />
         </View>
         :

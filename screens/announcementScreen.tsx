@@ -1,3 +1,4 @@
+import * as React from "react"
 import {
   FlatList,
   SafeAreaView,
@@ -9,16 +10,23 @@ import {
   View
 } from "react-native"
 import { HeaderComponent } from "../components/headerComponent";
-import { useDispatch } from "react-redux";
-import { setTitle,setContent } from "../Global/reducers/announcement_reducer";
-import { data } from "../assets/information";
+import { useDispatch, useSelector } from "react-redux";
+import { setTitle, setContent } from "../Global/reducers/sungwon_reducer";
+import Skeleton from "@thevsstech/react-native-skeleton";
+//import { data } from "../assets/information";
+import { Fetchtest } from "./FetchTest";
+import { fetchNoticeData } from "../Global/reducers/sungwon_reducer";
+import { setNoticeData } from "../Global/reducers/sungwon_reducer";
+
 
 export const AnnouncementScreen = ({ navigation, screenName }: any) => {
-  const dispatch=useDispatch<any>()
+  const sungwon= useSelector((state: any) => state.sungwon);
+  const dispatch = useDispatch<any>()
 
-  const handleAnnouncementClick=(newsTitle:any,newsContent:any)=>{
+
+  const handleAnnouncementClick = (newsTitle: any, newsContent: any) => {
     dispatch(setTitle(newsTitle));
-    dispatch( setContent(newsContent));
+    dispatch(setContent(newsContent));
     navigation.navigate("Announcement");
   }
   interface Props {
@@ -29,7 +37,7 @@ export const AnnouncementScreen = ({ navigation, screenName }: any) => {
 
   const AnnouncementItem: React.FC<Props> = ({ title, description, publication_date }) => {
     return (
-      <TouchableOpacity onPress={() => handleAnnouncementClick(title,description)}>
+      <TouchableOpacity onPress={() => handleAnnouncementClick(title, description)}>
         <View style={styles.announcementStyle}>
           <Text style={styles.titleStyle}> {title}</Text>
           <View style={styles.publicationDate}>
@@ -44,11 +52,37 @@ export const AnnouncementScreen = ({ navigation, screenName }: any) => {
 
   const displayAnnouncement = () => {
     return (
-      <FlatList
-        data={data.announcement}
-        renderItem={({ item, index }) => <AnnouncementItem key={index} title={item.title} description={item.description} publication_date={item.publication_date} />}
-        showsVerticalScrollIndicator={false}
-      />
+
+      sungwon.noticeData !== null&& !sungwon.noticeLoadingState
+        ?
+        <FlatList
+          data={sungwon.noticeData.row}
+          renderItem={({ item, index }) => <AnnouncementItem key={index} title={item.subject} description={item.text} publication_date={item.enforcement_date} />}
+          showsVerticalScrollIndicator={false}
+        />
+        :
+        <Skeleton >
+          <Skeleton.Item alignItems="center">
+            <Skeleton.Item
+              marginTop={6}
+              width={300}
+              height={50}
+              borderRadius={4}
+            />
+            <Skeleton.Item
+              marginTop={6}
+              width={300}
+              height={50}
+              borderRadius={4}
+            />
+            <Skeleton.Item
+              marginTop={6}
+              width={300}
+              height={50}
+              borderRadius={4}
+            />
+          </Skeleton.Item>
+        </Skeleton>
     )
 
   }
@@ -57,7 +91,7 @@ export const AnnouncementScreen = ({ navigation, screenName }: any) => {
     <SafeAreaView style={styles.announcementSection}>
       <HeaderComponent navigation={navigation} screenName="공지사항" />
       <View style={styles.topButtonSection}>
-        <TouchableOpacity >
+        <TouchableOpacity>
           <View style={styles.allButton}>
             <Text style={styles.allButtonText}>전체</Text>
           </View>

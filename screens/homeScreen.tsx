@@ -14,21 +14,59 @@ import {
 
 import { ScaledSheet } from "react-native-size-matters";
 import { opacity } from "react-native-reanimated/lib/typescript/reanimated2/Colors";
+import Skeleton from "@thevsstech/react-native-skeleton";
 import { HeaderComponent } from "../components/headerComponent";
 import { NavigationContainer } from '@react-navigation/native';
-import { data } from "../assets/information.ts";
+// import { data } from "../assets/information.ts";
 import { UseDispatch, useDispatch } from "react-redux";
-import { setTitle,setContent } from "../Global/reducers/announcement_reducer.ts";
+import { setNoticeData,setNoticeLoadingState, setTitle, setContent } from "../Global/reducers/sungwon_reducer.ts";
+import { fetchStaffData } from "../Global/reducers/sungwon_reducer.ts";
 
 
-export const HomeScreen = ({ navigation, screenName,props}: any) => {
+export const HomeScreen = ({ navigation, screenName, props }: any) => {
   const [attendanceHour, setAttendanceHour] = React.useState(-1);
   const [attendanceMinute, setAttendanceMinute] = React.useState(-1);
   const [goHomeHour, setGoHomeHour] = React.useState(-1);
   const [goHomeMinute, setGoHomeMinute] = React.useState(-1);
   const [isButtonDisabled, setButtonDisabled] = React.useState(false);
-  const dispatch=useDispatch<any>();
-
+  const [data, setData] = React.useState<any>()
+  const [noticeLoading, setNoticeLoading] = React.useState(true);
+  const dispatch = useDispatch<any>();
+  React.useEffect(() => {
+    const customCookie = `LoginUser={"staff_id":"test"};os_type=null&company=CPCSW;`;
+    let returnCode = { code: '9999' };
+    let url = "https://swerp.swadpia.co.kr/api/management/notice.php?action=findList";  //사내공지
+    let page = 1
+    let morePage = 10;
+    let moreSkip = 0;
+    let offset = 10;
+    let sendData = {
+      search_txt: "",
+      category: "",
+      skip: page == 0 ? "0" : moreSkip.toString(),
+      take: page == 0 ? offset.toString() : morePage.toString(),
+    };
+    const initFetch = async () => {
+      await fetch(url, {
+        method: 'POST',
+        headers: new Headers({
+          'Accept': 'application/json',
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Cookie': customCookie
+        }),
+        body: JSON.stringify(sendData)
+      })
+        .then((response) => response.json())
+        .then((data: any) => {
+          console.log("data:" + JSON.stringify(data));
+          setData(data);
+          dispatch(setNoticeData(data))
+          setNoticeLoading(false);
+          dispatch(setNoticeLoadingState(false))
+        });
+    }
+    initFetch();
+  }, []);
 
 
   let dateToday = new Date();
@@ -36,6 +74,7 @@ export const HomeScreen = ({ navigation, screenName,props}: any) => {
   let month = dateToday.getMonth() + 1;
   let date = dateToday.getDate();
   let day = new Date().toLocaleDateString("ko-KR", { weekday: 'short' })
+
 
   const getAttendanceTime = () => {
     let timeAndDate = new Date();
@@ -53,9 +92,9 @@ export const HomeScreen = ({ navigation, screenName,props}: any) => {
     setGoHomeHour(goHomehour);
     setGoHomeMinute(goHomeMinute);
   }
-  const handleAnnouncementClick=(newsTitle:any,newsContent:any)=>{
+  const handleAnnouncementClick = (newsTitle: any, newsContent: any) => {
     dispatch(setTitle(newsTitle));
-    dispatch( setContent(newsContent));
+    dispatch(setContent(newsContent));
     navigation.navigate("Announcement");
   }
   interface Props {
@@ -66,7 +105,7 @@ export const HomeScreen = ({ navigation, screenName,props}: any) => {
 
   const AnnouncementItem: React.FC<Props> = ({ title, description, publication_date }) => {
     return (
-      <TouchableOpacity onPress={() =>handleAnnouncementClick(title,description)}>
+      <TouchableOpacity onPress={() => handleAnnouncementClick(title, description)}>
         <View style={styles.announcementStyle}>
           <Text style={styles.titleStyle}> •{title}</Text>
           <Text style={styles.dateStyle}>{publication_date}</Text>
@@ -79,19 +118,46 @@ export const HomeScreen = ({ navigation, screenName,props}: any) => {
 
   const displayAnnouncement = () => {
     return (
-      <FlatList
-        data={data.announcement}
-        renderItem={({ item, index }) =>
-          index < 3 ? <AnnouncementItem
-            key={index}
-            title={item.title}
-            description={item.description}
-            publication_date={item.publication_date}
-          /> : <></>
-        }
-        showsVerticalScrollIndicator={false}
-        scrollEnabled={false}
-      />
+      data != null && !noticeLoading
+        ?
+        <FlatList
+          data={data.row}
+          renderItem={({ item, index }) =>
+            index < 3 ? <AnnouncementItem
+              key={index}
+              title={item.subject}
+              description={item.text}
+              publication_date={item.enforcement_date}
+            />
+              :<></>
+
+          }
+          showsVerticalScrollIndicator={false}
+          scrollEnabled={false}
+        />
+        :             
+         <Skeleton >
+        <Skeleton.Item alignItems="center">
+          <Skeleton.Item
+            marginTop={6}
+            width={300}
+            height={50}
+            borderRadius={4}
+          />
+          <Skeleton.Item
+            marginTop={6}
+            width={300}
+            height={50}
+            borderRadius={4}
+          />
+          <Skeleton.Item
+            marginTop={6}
+            width={300}
+            height={50}
+            borderRadius={4}
+          />
+        </Skeleton.Item>
+      </Skeleton>
     )
 
   }
@@ -299,7 +365,7 @@ const styles = ScaledSheet.create({
 
   },
   homeScroll: {
-    height: Platform.OS=="ios"?"580@s":"560@s",
+    height: Platform.OS == "ios" ? "580@s" : "560@s",
 
 
   },
@@ -307,18 +373,18 @@ const styles = ScaledSheet.create({
     marginTop: "20@s",
     marginLeft: "10@s",
     marginRight: "10@s",
-    height:  Platform.OS=="ios"?"250@s":"210@s",
+    height: Platform.OS == "ios" ? "250@s" : "210@s",
     justifyContent: "space-between"
   },
   announcementStyle: {
-    marginTop: Platform.OS=="ios"?"25@s":"13@s",
+    marginTop: Platform.OS == "ios" ? "25@s" : "13@s",
     marginLeft: "5@s",
     marginRight: "5@s",
 
   },
   titleStyle: {
     fontSize: "14@s",
-    fontFamily:Platform.OS=="ios"?"Noto Sans KR Regular":"Noto Sans KR Extra Thin",
+    fontFamily: Platform.OS == "ios" ? "Noto Sans KR Regular" : "Noto Sans KR Extra Thin",
     // fontWeight:"600"
   },
   dateStyle: {

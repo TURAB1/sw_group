@@ -1,9 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import announcementReducer from "./reducers/announcement_reducer";
+import sungwonReducer from "./reducers/sungwon_reducer";
 
 export const store =configureStore({
   reducer:{ 
-    announcement:announcementReducer
+    sungwon:sungwonReducer
    
   }
 

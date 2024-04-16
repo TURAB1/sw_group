@@ -11,22 +11,28 @@ import {
     View
 } from "react-native";
 import Entypo from "react-native-vector-icons/Entypo";
+import { useSelector } from "react-redux";
+import Skeleton from "@thevsstech/react-native-skeleton";
 import { data } from "../assets/information";
 
 
 export const EmployeeDisplay = () => {
     const [modalVisible, setModalVisible] = React.useState(false);
     const [employeeName, setEmployeeName] = React.useState("");
-    const [employeePhoto, setEmployeePhoto] = React.useState(1);
+    const [employeePhoto, setEmployeePhoto] = React.useState("");
     const [employeePhoneNumber, setEmployeePhoneNumber] = React.useState("");
     const [employeeDepartment, setEmployeeDepartment] = React.useState("");
+    const sungwon = useSelector((state: any) => state.sungwon);
+
+    React.useEffect(() => console.log("sungwon:" + JSON.stringify(sungwon)))
 
     const handleEmployeeClick = (photo: any, name: any, phoneNumber: any, department: any) => {
+        setModalVisible(true);
         setEmployeeName(name);
         setEmployeePhoto(photo);
         setEmployeePhoneNumber(phoneNumber);
         setEmployeeDepartment(department)
-        setModalVisible(true);
+        
 
 
     }
@@ -41,7 +47,7 @@ export const EmployeeDisplay = () => {
         return (
             <View>
                 <Modal
-                    animationType="slide"
+                    animationType="none"
                     transparent={true}
                     visible={modalVisible}
                     onRequestClose={() => {
@@ -61,7 +67,7 @@ export const EmployeeDisplay = () => {
                             <View style={styles.imageSection}>
                                 <Image
                                     style={styles.employeePhoto}
-                                    source={employeePhoto}
+                                    source={{ uri: "https://swerp.swadpia.co.kr/uploads/staff_photo/" + employeePhoto }}
                                 />
                                 <View>
                                     <Text style={styles.modalText}>{employeePhoneNumber}</Text>
@@ -77,7 +83,7 @@ export const EmployeeDisplay = () => {
                     <View style={styles.employee}>
                         <Image
                             style={styles.profilePhoto}
-                            source={photo}
+                            source={{ uri: "https://swerp.swadpia.co.kr/uploads/staff_photo/" + photo }}
                         />
                         <Text>{name}</Text>
                     </View>
@@ -86,94 +92,150 @@ export const EmployeeDisplay = () => {
         )
     };
     return (
-        <ScrollView showsVerticalScrollIndicator={false}>
-            <View style={styles.department}>
-                <Text style={styles.departmentText}>임원실</Text>
-            </View>
-            <View>
+        sungwon.staffData !=null && !sungwon.isLoading
+        ?
+        <FlatList
+            data={sungwon.staffData.row.sw}
+            renderItem={
+                ({ item, index }) =>
+                    <>
+                        <View style={styles.department}>
+                            <Text style={styles.departmentText}>{item.text}</Text>
+                        </View>
+                        <FlatList
+                            data={item.children}
+                            renderItem={
+                                ({ item, index }) =>
+                                    <EmployeeItem
+                                        key={index}
+                                        photo={item.photo}
+                                        name={item.text}
+                                        phoneNumber={item.mobile}
+                                        department={""}
+                                    />
+                            }
+                            numColumns={5}
+                            scrollEnabled={false}
+                        />
+                    </>
+            }
+            showsVerticalScrollIndicator={false}
 
-                <FlatList
-                    data={data.employee.executive}
-                    renderItem={
-                        ({ item, index }) =>
-                            <EmployeeItem
-                                key={index}
-                                photo={item.photo}
-                                name={item.name}
-                                phoneNumber={item.phone_number}
-                                department={item.department}
-                            />
-                    }
-                    numColumns={5}
-                    scrollEnabled={false}
-                />
-            </View>
-            <View style={styles.department}>
-                <Text style={styles.departmentText}>감사</Text>
-            </View>
-            <View>
+        />
+        :
+        <Skeleton >
+        <Skeleton.Item alignItems="center">
+          <Skeleton.Item
+            marginTop={6}
+            width={300}
+            height={50}
+            borderRadius={4}
+          />
+          <Skeleton.Item
+            marginTop={6}
+            width={300}
+            height={50}
+            borderRadius={4}
+          />
+          <Skeleton.Item
+            marginTop={6}
+            width={300}
+            height={50}
+            borderRadius={4}
+          />
+        </Skeleton.Item>
+      </Skeleton>
 
-                <FlatList
-                    data={data.employee.audit}
-                    renderItem={
-                        ({ item, index }) =>
-                            <EmployeeItem
-                                key={index}
-                                photo={item.photo}
-                                name={item.name}
-                                phoneNumber={item.phone_number}
-                                department={item.department}
-                            />
-                    }
-                    numColumns={5}
-                    scrollEnabled={false}
-                />
-            </View>
-            <View style={styles.department}>
-                <Text style={styles.departmentText}>경영지원본부</Text>
-            </View>
-            <View>
-
-                <FlatList
-                    data={data.employee.finance}
-                    renderItem={
-                        ({ item, index }) =>
-                            <EmployeeItem
-                                key={index}
-                                photo={item.photo}
-                                name={item.name}
-                                phoneNumber={item.phone_number}
-                                department={item.department}
-                            />
-                    }
-                    numColumns={5}
-                    scrollEnabled={false}
-                />
-            </View>
-            <View style={styles.department}>
-                <Text style={styles.departmentText}>IT연구소</Text>
-            </View>
-            <View>
-
-                <FlatList
-                    data={data.employee.it_research}
-                    renderItem={
-                        ({ item, index }) =>
-                            <EmployeeItem
-                                key={index}
-                                photo={item.photo}
-                                name={item.name}
-                                phoneNumber={item.phone_number}
-                                department={item.department}
-                            />
-                    }
-                    numColumns={5}
-                    scrollEnabled={false}
-                />
-            </View>
-
-        </ScrollView>
     )
+    // return (
+    //     <ScrollView showsVerticalScrollIndicator={false}>
+    //         <View style={styles.department}>
+    //             <Text style={styles.departmentText}>임원실</Text>
+    //         </View>
+    //         <View>
+
+    //             <FlatList
+    //                 data={data.employee.executive}
+    //                 renderItem={
+    //                     ({ item, index }) =>
+    //                         <EmployeeItem
+    //                             key={index}
+    //                             photo={item.photo}
+    //                             name={item.name}
+    //                             phoneNumber={item.phone_number}
+    //                             department={item.department}
+    //                         />
+    //                 }
+    //                 numColumns={5}
+    //                 scrollEnabled={false}
+    //             />
+    //         </View>
+    //         <View style={styles.department}>
+    //             <Text style={styles.departmentText}>감사</Text>
+    //         </View>
+    //         <View>
+
+    //             <FlatList
+    //                 data={data.employee.audit}
+    //                 renderItem={
+    //                     ({ item, index }) =>
+    //                         <EmployeeItem
+    //                             key={index}
+    //                             photo={item.photo}
+    //                             name={item.name}
+    //                             phoneNumber={item.phone_number}
+    //                             department={item.department}
+    //                         />
+    //                 }
+    //                 numColumns={5}
+    //                 scrollEnabled={false}
+    //             />
+    //         </View>
+    //         <View style={styles.department}>
+    //             <Text style={styles.departmentText}>경영지원본부</Text>
+    //         </View>
+    //         <View>
+
+    //             <FlatList
+    //                 data={data.employee.finance}
+    //                 renderItem={
+    //                     ({ item, index }) =>
+    //                         <EmployeeItem
+    //                             key={index}
+    //                             photo={item.photo}
+    //                             name={item.name}
+    //                             phoneNumber={item.phone_number}
+    //                             department={item.department}
+    //                         />
+    //                 }
+    //                 numColumns={5}
+    //                 scrollEnabled={false}
+    //             />
+    //         </View>
+    //         <View style={styles.department}>
+    //             <Text style={styles.departmentText}>IT연구소</Text>
+    //         </View>
+    //         <View>
+
+    //             <FlatList
+    //                 data={data.employee.it_research}
+    //                 renderItem={
+    //                     ({ item, index }) =>
+    //                         <EmployeeItem
+    //                             key={index}
+    //                             photo={item.photo}
+    //                             name={item.name}
+    //                             phoneNumber={item.phone_number}
+    //                             department={item.department}
+    //                         />
+    //                 }
+    //                 numColumns={5}
+    //                 scrollEnabled={false}
+    //             />
+    //         </View>
+
+    //     </ScrollView>
+    // )
 
 }
 

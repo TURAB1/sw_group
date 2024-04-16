@@ -9,8 +9,8 @@ export const Fetchtest = () => {
             //let url="https://swerp.swadpia.co.kr/api/management/new_recruit.php?action=findList";
             //let url="https://new-dev-erp.swadpia.co.kr/api/management/organization.php?action=find_group_total";
             
-           // let url="https://swerp.swadpia.co.kr/api/management/organization.php?action=find_group_total";  //조긱도
-            let url="https://swerp.swadpia.co.kr/api/management/notice.php?action=findList&category=notice";
+            //let url="https://swerp.swadpia.co.kr/api/management/organization.php?action=find_group_total";  //조긱도
+           let url="https://swerp.swadpia.co.kr/api/management/notice.php?action=findList&category=notice";  //사내공지
             let sendData={
                 a: 10,
                 b: 20,
