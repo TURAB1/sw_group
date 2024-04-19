@@ -1,36 +1,26 @@
 
 import * as React from "react";
 import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, TextInput, Image, ScrollView } from "react-native"
+import { useDispatch } from "react-redux";
 import { HeaderComponent } from "../components/headerComponent";
 import { EmployeeDisplay } from "../components/employeeDisplay";
 import Entypo from "react-native-vector-icons/Entypo";
 import Feather from "react-native-vector-icons/Feather"
-import { SearchBar } from "@rneui/themed";
-import { SearchFilter } from "../components/searchFilter";
 import { fetchStaffData } from "../Global/reducers/sungwon_reducer";
-import { data } from "../assets/information";
-import { useDispatch } from "react-redux";
-
-
-
 
 export const StaffContactsScreen = ({ navigation, screenName }: any) => {
   const [input, setInput] = React.useState("");
-  const [employeeData,setEmployeeData]=React.useState({});
-  const dispatch=useDispatch<any>();
- 
-  React.useEffect(()=>{
+  const [data, setData] = React.useState<any>()
+  const [staffLoading, setStaffLoading] = React.useState(true);
+  const dispatch = useDispatch<any>();
 
-  dispatch(fetchStaffData());
 
-   let executive=data.employee.executive;
-   let audit=data.employee.audit;
-   let finance=data.employee.finance;
-   let it_research=data.employee.it_research;
-   const employeeData=executive.concat(audit).concat(finance).concat(it_research);
-   setEmployeeData(employeeData);
+  // React.useEffect(() => {
 
-  },[]);
+  // dispatch(fetchStaffData());
+
+  // }, []);
+
   return (
     <SafeAreaView style={styles.staffContacts}>
       <HeaderComponent navigation={navigation} screenName="회사연락망" />
@@ -64,19 +54,10 @@ export const StaffContactsScreen = ({ navigation, screenName }: any) => {
           placeholder="검색하기"
           keyboardType="default"
           multiline={true}
-
           value={input}
           onChangeText={(text) => setInput(text)} />
       </View>
-      {input == ""
-        ?
-        <View >
-          <EmployeeDisplay />
-        </View>
-        :
-        <SearchFilter data={employeeData} input={input} setInput={setInput} />
-      }
-
+      <EmployeeDisplay/>
     </SafeAreaView>
   )
 

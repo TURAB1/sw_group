@@ -13,15 +13,51 @@ import { HeaderComponent } from "../components/headerComponent";
 import { useDispatch, useSelector } from "react-redux";
 import { setTitle, setContent } from "../Global/reducers/sungwon_reducer";
 import Skeleton from "@thevsstech/react-native-skeleton";
-//import { data } from "../assets/information";
-import { Fetchtest } from "./FetchTest";
-import { fetchNoticeData } from "../Global/reducers/sungwon_reducer";
 import { setNoticeData } from "../Global/reducers/sungwon_reducer";
 
 
 export const AnnouncementScreen = ({ navigation, screenName }: any) => {
-  const sungwon= useSelector((state: any) => state.sungwon);
+  const [data, setData] = React.useState<any>()
+  const [noticeLoading, setNoticeLoading] = React.useState(true);
+  // const sungwon = useSelector((state: any) => state.sungwon);
   const dispatch = useDispatch<any>()
+ 
+  React.useEffect(() => {
+    const customCookie = `LoginUser={"staff_id":"test"};os_type=null&company=CPCSW;`;
+    let returnCode = { code: '9999' };
+    let url = "https://swerp.swadpia.co.kr/api/management/notice.php?action=findList";  //사내공지
+    let page = 1
+    let morePage = 10;
+    let moreSkip = 0;
+    let offset = 10;
+    let sendData = {
+      search_txt: "",
+      category: "",
+      skip: page == 0 ? "0" : moreSkip.toString(),
+      take: page == 0 ? offset.toString() : morePage.toString(),
+    };
+    const initFetch = async () => {
+      await fetch(url, {
+        method: 'POST',
+        headers: new Headers({
+          'Accept': 'application/json',
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Cookie': customCookie
+        }),
+        body: JSON.stringify(sendData)
+      })
+        .then((response) => response.json())
+        .then((data: any) => {
+         
+          setData(data);
+          //dispatch(setNoticeData(data))
+          setNoticeLoading(false);
+           //dispatch(setNoticeLoadingState(false))
+          // console.log("fetch notice successful");
+        });
+    }
+   initFetch();
+  }, );
 
 
   const handleAnnouncementClick = (newsTitle: any, newsContent: any) => {
@@ -32,7 +68,7 @@ export const AnnouncementScreen = ({ navigation, screenName }: any) => {
   interface Props {
     title: any
     description: any
-    publication_date: any
+    publication_date: string
   }
 
   const AnnouncementItem: React.FC<Props> = ({ title, description, publication_date }) => {
@@ -41,8 +77,14 @@ export const AnnouncementScreen = ({ navigation, screenName }: any) => {
         <View style={styles.announcementStyle}>
           <Text style={styles.titleStyle}> {title}</Text>
           <View style={styles.publicationDate}>
-            <Text style={styles.dateStyle}>작성일:{publication_date}</Text>
-            <Text style={styles.dateStyle}>시행일:{publication_date}</Text>
+            <View style={styles.dateDisplay}>
+              <Text style={styles.dateStyle}>{"작성일:"}</Text>
+              <Text style={styles.dateStyle}>{publication_date}</Text>
+            </View>
+            <View style={styles.dateDisplay}>
+              <Text style={styles.dateStyle}>{"시행일:"}</Text>
+              <Text style={styles.dateStyle}>{publication_date}</Text>
+            </View>
           </View>
           <View style={styles.line}></View>
         </View>
@@ -50,14 +92,21 @@ export const AnnouncementScreen = ({ navigation, screenName }: any) => {
     );
   }
 
-  const displayAnnouncement = () => {
+  const _renderDisplayAnnouncement = () => {
     return (
-
-      sungwon.noticeData !== null&& !sungwon.noticeLoadingState
+      data!== null && !noticeLoading
         ?
         <FlatList
-          data={sungwon.noticeData.row}
-          renderItem={({ item, index }) => <AnnouncementItem key={index} title={item.subject} description={item.text} publication_date={item.enforcement_date} />}
+          data={data.row}
+          renderItem={
+            ({ item, index }) =>
+              <AnnouncementItem
+                key={index}
+                title={item.subject}
+                description={item.text}
+                publication_date={item.enforcement_date}
+              />
+          }
           showsVerticalScrollIndicator={false}
         />
         :
@@ -117,8 +166,7 @@ export const AnnouncementScreen = ({ navigation, screenName }: any) => {
           </View>
         </TouchableOpacity>
       </View>
-      <View
-        style={styles.searchSection}>
+      <View style={styles.searchSection}>
         <TextInput
           style={styles.searchInput}
           //onChangeText={setContent}
@@ -134,7 +182,7 @@ export const AnnouncementScreen = ({ navigation, screenName }: any) => {
 
       <View style={{ height: "80%" }}>
         {
-          displayAnnouncement()
+          _renderDisplayAnnouncement()
         }
       </View>
     </SafeAreaView>
@@ -203,6 +251,9 @@ const styles = StyleSheet.create({
   publicationDate: {
     flexDirection: "row",
     justifyContent: "space-between"
+  },
+  dateDisplay: {
+    flexDirection: "row"
   },
   line: {
     backgroundColor: "#D1D1D1",

@@ -13,7 +13,6 @@ import {
 import Entypo from "react-native-vector-icons/Entypo";
 import { useSelector } from "react-redux";
 import Skeleton from "@thevsstech/react-native-skeleton";
-import { data } from "../assets/information";
 
 
 export const EmployeeDisplay = () => {
@@ -22,9 +21,40 @@ export const EmployeeDisplay = () => {
     const [employeePhoto, setEmployeePhoto] = React.useState("");
     const [employeePhoneNumber, setEmployeePhoneNumber] = React.useState("");
     const [employeeDepartment, setEmployeeDepartment] = React.useState("");
-    const sungwon = useSelector((state: any) => state.sungwon);
-
-    React.useEffect(() => console.log("sungwon:" + JSON.stringify(sungwon)))
+    // const sungwon = useSelector((state: any) => state.sungwon);
+    const [data, setData] = React.useState<any>()
+    const [staffLoading, setStaffLoading] = React.useState(true);
+   
+  
+    React.useEffect(() => {
+      let url = "https://swerp.swadpia.co.kr/api/management/organization.php?action=find_group_total";  //조긱도
+      const customCookie = `LoginUser={"staff_id":"test"};os_type=null&company=CPCSW;`;
+      let returnCode = { code: '9999' };
+      let sendData = {
+        a: 10,
+        b: 20,
+      }
+    
+      const initFetch = async () => {
+        await fetch(url, {
+          method: 'POST',
+          headers: new Headers({
+            'Accept': 'application/json',
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Cookie': customCookie
+          }),
+          body: JSON.stringify(sendData)
+        })
+          .then((response) => response.json())
+          .then((data: any) => {
+           
+            setData(data);
+            setStaffLoading(false);
+           
+          });
+      }
+     initFetch();
+    }, );
 
     const handleEmployeeClick = (photo: any, name: any, phoneNumber: any, department: any) => {
         setModalVisible(true);
@@ -32,7 +62,7 @@ export const EmployeeDisplay = () => {
         setEmployeePhoto(photo);
         setEmployeePhoneNumber(phoneNumber);
         setEmployeeDepartment(department)
-        
+
 
 
     }
@@ -92,150 +122,61 @@ export const EmployeeDisplay = () => {
         )
     };
     return (
-        sungwon.staffData !=null && !sungwon.isLoading
-        ?
-        <FlatList
-            data={sungwon.staffData.row.sw}
-            renderItem={
-                ({ item, index }) =>
-                    <>
-                        <View style={styles.department}>
-                            <Text style={styles.departmentText}>{item.text}</Text>
-                        </View>
-                        <FlatList
-                            data={item.children}
-                            renderItem={
-                                ({ item, index }) =>
-                                    <EmployeeItem
-                                        key={index}
-                                        photo={item.photo}
-                                        name={item.text}
-                                        phoneNumber={item.mobile}
-                                        department={""}
-                                    />
-                            }
-                            numColumns={5}
-                            scrollEnabled={false}
-                        />
-                    </>
-            }
-            showsVerticalScrollIndicator={false}
+        data!= null && !staffLoading
+            ?
+            <FlatList
+                data={data.row.sw}
+                renderItem={
+                    ({ item, index }) =>
+                        <>
+                            <View style={styles.department}>
+                                <Text style={styles.departmentText}>{item.text}</Text>
+                            </View>
+                            <FlatList
+                                data={item.children}
+                                renderItem={
+                                    ({ item, index }) =>
+                                        <EmployeeItem
+                                            key={index}
+                                            photo={item.photo}
+                                            name={item.text}
+                                            phoneNumber={item.mobile}
+                                            department={""}
+                                        />
+                                }
+                                numColumns={5}
+                                scrollEnabled={false}
+                            />
+                        </>
+                }
+                showsVerticalScrollIndicator={false}
 
-        />
-        :
-        <Skeleton >
-        <Skeleton.Item alignItems="center">
-          <Skeleton.Item
-            marginTop={6}
-            width={300}
-            height={50}
-            borderRadius={4}
-          />
-          <Skeleton.Item
-            marginTop={6}
-            width={300}
-            height={50}
-            borderRadius={4}
-          />
-          <Skeleton.Item
-            marginTop={6}
-            width={300}
-            height={50}
-            borderRadius={4}
-          />
-        </Skeleton.Item>
-      </Skeleton>
+            />
+            :
+            <Skeleton >
+                <Skeleton.Item alignItems="center">
+                    <Skeleton.Item
+                        marginTop={6}
+                        width={300}
+                        height={50}
+                        borderRadius={4}
+                    />
+                    <Skeleton.Item
+                        marginTop={6}
+                        width={300}
+                        height={50}
+                        borderRadius={4}
+                    />
+                    <Skeleton.Item
+                        marginTop={6}
+                        width={300}
+                        height={50}
+                        borderRadius={4}
+                    />
+                </Skeleton.Item>
+            </Skeleton>
 
     )
-    // return (
-    //     <ScrollView showsVerticalScrollIndicator={false}>
-    //         <View style={styles.department}>
-    //             <Text style={styles.departmentText}>임원실</Text>
-    //         </View>
-    //         <View>
-
-    //             <FlatList
-    //                 data={data.employee.executive}
-    //                 renderItem={
-    //                     ({ item, index }) =>
-    //                         <EmployeeItem
-    //                             key={index}
-    //                             photo={item.photo}
-    //                             name={item.name}
-    //                             phoneNumber={item.phone_number}
-    //                             department={item.department}
-    //                         />
-    //                 }
-    //                 numColumns={5}
-    //                 scrollEnabled={false}
-    //             />
-    //         </View>
-    //         <View style={styles.department}>
-    //             <Text style={styles.departmentText}>감사</Text>
-    //         </View>
-    //         <View>
-
-    //             <FlatList
-    //                 data={data.employee.audit}
-    //                 renderItem={
-    //                     ({ item, index }) =>
-    //                         <EmployeeItem
-    //                             key={index}
-    //                             photo={item.photo}
-    //                             name={item.name}
-    //                             phoneNumber={item.phone_number}
-    //                             department={item.department}
-    //                         />
-    //                 }
-    //                 numColumns={5}
-    //                 scrollEnabled={false}
-    //             />
-    //         </View>
-    //         <View style={styles.department}>
-    //             <Text style={styles.departmentText}>경영지원본부</Text>
-    //         </View>
-    //         <View>
-
-    //             <FlatList
-    //                 data={data.employee.finance}
-    //                 renderItem={
-    //                     ({ item, index }) =>
-    //                         <EmployeeItem
-    //                             key={index}
-    //                             photo={item.photo}
-    //                             name={item.name}
-    //                             phoneNumber={item.phone_number}
-    //                             department={item.department}
-    //                         />
-    //                 }
-    //                 numColumns={5}
-    //                 scrollEnabled={false}
-    //             />
-    //         </View>
-    //         <View style={styles.department}>
-    //             <Text style={styles.departmentText}>IT연구소</Text>
-    //         </View>
-    //         <View>
-
-    //             <FlatList
-    //                 data={data.employee.it_research}
-    //                 renderItem={
-    //                     ({ item, index }) =>
-    //                         <EmployeeItem
-    //                             key={index}
-    //                             photo={item.photo}
-    //                             name={item.name}
-    //                             phoneNumber={item.phone_number}
-    //                             department={item.department}
-    //                         />
-    //                 }
-    //                 numColumns={5}
-    //                 scrollEnabled={false}
-    //             />
-    //         </View>
-
-    //     </ScrollView>
-    // )
 
 }
 

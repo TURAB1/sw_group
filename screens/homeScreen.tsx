@@ -17,10 +17,10 @@ import { opacity } from "react-native-reanimated/lib/typescript/reanimated2/Colo
 import Skeleton from "@thevsstech/react-native-skeleton";
 import { HeaderComponent } from "../components/headerComponent";
 import { NavigationContainer } from '@react-navigation/native';
-// import { data } from "../assets/information.ts";
 import { UseDispatch, useDispatch } from "react-redux";
-import { setNoticeData,setNoticeLoadingState, setTitle, setContent } from "../Global/reducers/sungwon_reducer.ts";
+import { setNoticeData, setNoticeLoadingState, setTitle, setContent } from "../Global/reducers/sungwon_reducer.ts";
 import { fetchStaffData } from "../Global/reducers/sungwon_reducer.ts";
+import SplashScreen from "react-native-splash-screen";
 
 
 export const HomeScreen = ({ navigation, screenName, props }: any) => {
@@ -32,6 +32,7 @@ export const HomeScreen = ({ navigation, screenName, props }: any) => {
   const [data, setData] = React.useState<any>()
   const [noticeLoading, setNoticeLoading] = React.useState(true);
   const dispatch = useDispatch<any>();
+
   React.useEffect(() => {
     const customCookie = `LoginUser={"staff_id":"test"};os_type=null&company=CPCSW;`;
     let returnCode = { code: '9999' };
@@ -58,15 +59,17 @@ export const HomeScreen = ({ navigation, screenName, props }: any) => {
       })
         .then((response) => response.json())
         .then((data: any) => {
-          console.log("data:" + JSON.stringify(data));
+         
           setData(data);
-          dispatch(setNoticeData(data))
+          //dispatch(setNoticeData(data))
           setNoticeLoading(false);
-          dispatch(setNoticeLoadingState(false))
+           dispatch(setNoticeLoadingState(false))
+          // console.log("fetch notice successful");
         });
     }
-    initFetch();
-  }, []);
+   initFetch();
+  }, );
+
 
 
   let dateToday = new Date();
@@ -123,41 +126,44 @@ export const HomeScreen = ({ navigation, screenName, props }: any) => {
         <FlatList
           data={data.row}
           renderItem={({ item, index }) =>
-            index < 3 ? <AnnouncementItem
-              key={index}
-              title={item.subject}
-              description={item.text}
-              publication_date={item.enforcement_date}
-            />
-              :<></>
+            index < 3
+              ?
+              <AnnouncementItem
+                key={index}
+                title={item.subject}
+                description={item.text}
+                publication_date={item.enforcement_date}
+              />
+              :
+              <></>
 
           }
           showsVerticalScrollIndicator={false}
           scrollEnabled={false}
         />
-        :             
-         <Skeleton >
-        <Skeleton.Item alignItems="center">
-          <Skeleton.Item
-            marginTop={6}
-            width={300}
-            height={50}
-            borderRadius={4}
-          />
-          <Skeleton.Item
-            marginTop={6}
-            width={300}
-            height={50}
-            borderRadius={4}
-          />
-          <Skeleton.Item
-            marginTop={6}
-            width={300}
-            height={50}
-            borderRadius={4}
-          />
-        </Skeleton.Item>
-      </Skeleton>
+        :
+        <Skeleton >
+          <Skeleton.Item alignItems="center">
+            <Skeleton.Item
+              marginTop={6}
+              width={300}
+              height={50}
+              borderRadius={4}
+            />
+            <Skeleton.Item
+              marginTop={6}
+              width={300}
+              height={50}
+              borderRadius={4}
+            />
+            <Skeleton.Item
+              marginTop={6}
+              width={300}
+              height={50}
+              borderRadius={4}
+            />
+          </Skeleton.Item>
+        </Skeleton>
     )
 
   }
@@ -189,7 +195,8 @@ export const HomeScreen = ({ navigation, screenName, props }: any) => {
             <View>
               <Text style={styles.attendanceStyle}>출근시간</Text>
               {
-                attendanceHour == -1 ?
+                attendanceHour == -1
+                  ?
                   <Text style={styles.attendanceTime}>-</Text>
                   :
                   <Text style={styles.attendanceTime}>{attendanceHour}:{attendanceMinute}</Text>
@@ -199,7 +206,8 @@ export const HomeScreen = ({ navigation, screenName, props }: any) => {
             <View>
               <Text style={styles.attendanceStyle}>퇴근시간</Text>
               {
-                goHomeHour == -1 ?
+                goHomeHour == -1
+                  ?
                   <Text style={styles.attendanceTime}>-</Text>
                   :
                   <Text style={styles.attendanceTime}>{goHomeHour}:{goHomeMinute}</Text>
@@ -257,8 +265,6 @@ const styles = ScaledSheet.create({
   photo: {
     width: "40@s",
     height: "40@s",
-    // width:PixelRatio.getPixelSizeForLayoutSize(40),
-    // height:PixelRatio.getPixelSizeForLayoutSize(40),
     borderRadius: "40@s",
   },
   profileInfo: {
@@ -385,7 +391,6 @@ const styles = ScaledSheet.create({
   titleStyle: {
     fontSize: "14@s",
     fontFamily: Platform.OS == "ios" ? "Noto Sans KR Regular" : "Noto Sans KR Extra Thin",
-    // fontWeight:"600"
   },
   dateStyle: {
     opacity: "0.5@s"

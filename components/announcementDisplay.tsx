@@ -1,19 +1,20 @@
 import * as React from 'react'
-import { Image, SafeAreaView, StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native'
+import { Image, KeyboardAvoidingView, Platform, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
+import { RichEditor } from 'react-native-pell-rich-editor'
 import MaterialIcons from "react-native-vector-icons/MaterialIcons"
 import { useDispatch, useSelector } from 'react-redux'
 
 export const AnnouncementDisplay = ({ navigation }: any) => {
-    const announcement= useSelector((state: any) => state.sungwon);
+    const announcement = useSelector((state: any) => state.sungwon);
 
     const dispatch = useDispatch<any>();
 
     return (
         <SafeAreaView style={styles.announcementHeader}>
             <View style={styles.headerSection}>
-                <TouchableWithoutFeedback onPress={() => navigation.goBack()}>
+                <TouchableOpacity onPress={() => navigation.goBack()}>
                     <MaterialIcons name="arrow-back-ios" size={30} />
-                </TouchableWithoutFeedback>
+                </TouchableOpacity>
                 <Text>공지사항</Text>
                 <View style={styles.space}></View>
             </View>
@@ -21,10 +22,19 @@ export const AnnouncementDisplay = ({ navigation }: any) => {
             <View
                 style={styles.headerLine}>
             </View>
-            <Text style={{fontWeight:"bold",marginTop:10}}>{announcement.title}</Text>
-            {/* <View style={{marginTop:20}}>
-              <Text>{announcement.content}</Text>
-            </View> */}
+            <Text style={styles.title}>{announcement.title}</Text>
+            <View style={styles.content}>
+                <ScrollView showsVerticalScrollIndicator={false}>
+                    <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={{ flex: 1 }}>
+                        <Text>Description:</Text>
+                        <RichEditor
+                            initialContentHTML={announcement.content}
+
+                        />
+                    </KeyboardAvoidingView>
+
+                </ScrollView>
+            </View>
         </SafeAreaView>
     )
 }
@@ -48,8 +58,15 @@ const styles = StyleSheet.create({
         marginTop: 10,
         backgroundColor: "#D1D1D1",
         height: 0.3
-    }
+    },
+    title: {
+        fontWeight: "bold",
+        marginTop: 10,
 
+    },
+    content: {
+        marginTop: 20,
+    }
 }
 
 );
