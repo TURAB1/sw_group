@@ -1,0 +1,16 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+	ignorecase = true
+	precomposeunicode = true
+[remote "origin"]
+	url = http://10.4.20.180:8081/gitlab-instance-e12220eb/sw_frontend_chris_testapp.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "dev_chris"]
+	remote = origin
+	merge = refs/heads/dev_chris
+[branch "master"]
+	remote = origin
+	merge = refs/heads/master

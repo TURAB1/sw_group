@@ -1,9 +1,8 @@
 import * as React from "react"
 import SplashScreen from 'react-native-splash-screen';
 import { Provider } from "react-redux";
-import { store } from "./Global";
-import {MainApp} from "./MainApp";
-import AuthStack from "./AuthStack";
+import { store } from "./src/Global";
+import AuthStack from "./src/beforeAuth/AuthStack";
  
  function App(){
 
@@ -13,7 +12,6 @@ import AuthStack from "./AuthStack";
     return(
       <Provider store={store} >
         <AuthStack/>
-        {/* <MainApp/> */}
        
       </Provider>
     )
